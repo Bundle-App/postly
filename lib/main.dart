@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:postly/setUp.dart';
+import 'routes.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+  await setUpLocator();
   runApp(Postly());
 }
 
@@ -8,36 +17,25 @@ class Postly extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Postly',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        fontFamily: "Sofia Pro",
+        disabledColor: Colors.grey,
+        cardColor: Colors.white,
+        canvasColor: Colors.white,
+        brightness: Brightness.light,
+        buttonTheme: Theme.of(context).buttonTheme.copyWith(
+              colorScheme: ColorScheme.light(),
+            ),
+        appBarTheme: AppBarTheme(
+          elevation: 0.0,
+        ),
       ),
-      home: MyHomePage(title: 'Posts'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Text(widget.title),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      initialRoute: "/post",
+      getPages: routes,
     );
   }
 }
