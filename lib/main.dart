@@ -22,7 +22,7 @@ class Postly extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        fontFamily: "Sofia Pro",
+        fontFamily: "Poppins",
         disabledColor: Colors.grey,
         cardColor: Colors.white,
         canvasColor: Colors.white,

@@ -64,7 +64,7 @@ class UserController extends GetxController {
             decoration: BoxDecoration(
               color: Colors.white,
             ),
-            child: Text("You are a legend"),
+            child: Text("You are a postly legend"),
           ),
         ),
       ).then(
