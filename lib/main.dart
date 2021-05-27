@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Postly());
+  runApp(const Postly());
 }
 
 class Postly extends StatelessWidget {
   // This widget is the root of your application.
+  const Postly({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -14,15 +16,15 @@ class Postly extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Posts'),
+      home: const MyHomePage(title: 'Posts'),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
-  final String title;
+  final String? title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -33,10 +35,10 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(widget.title!),
       ),
       body: Center(
-        child: Text(widget.title),
+        child: Text(widget.title!),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

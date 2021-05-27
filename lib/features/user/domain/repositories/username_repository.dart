@@ -1,8 +1,10 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:Postly/core/error/failure.dart';
-import 'package:Postly/features/user/domain/entities/username.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/error/failure.dart';
+import '../entities/username.dart';
+
+///username repository abstraction
 abstract class UsernameRepository {
+  ///method that gets username or failure
   Future<Either<Failure, Username>> getUsername();
 }

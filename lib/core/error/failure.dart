@@ -1,14 +1,8 @@
-import 'package:equatable/equatable.dart';
+///general/base failure class
+abstract class Failure {}
 
-abstract class Failure extends Equatable {
-  final List properties;
-
-  Failure({this.properties = const <dynamic>[]}) : super();
-
-  @override
-  List<Object> get props => [properties];
-}
-
+///server failure class that represents failure from remote data calls
 class ServerFailure extends Failure {}
 
+///cache failure class that represents failure from local data calls
 class CacheFailure extends Failure {}

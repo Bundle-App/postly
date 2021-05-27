@@ -1,10 +1,10 @@
-name: Postly
+name: postly
 description: Postly a social app that lets you share your thoughts and get
   comments from the community.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,28 +19,28 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.0
   dartz: ^0.9.2
+  data_connection_checker: ^0.3.4
   equatable: ^2.0.2
   get_it: ^7.1.3
   mockito: ^5.0.9
   riverpod: ^0.14.0+3
-  very_good_analysis: ^2.1.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  very_good_analysis: ^2.1.1
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 # The following section is specific to Flutter.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
