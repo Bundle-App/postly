@@ -1,8 +1,7 @@
-// ignore: import_of_legacy_library_into_null_safe
-import 'package:Postly/core/usecases/usecase.dart';
-import 'package:Postly/features/user/domain/entities/username.dart';
-import 'package:Postly/features/user/domain/repositories/username_repository.dart';
-import 'package:Postly/features/user/domain/usecases/get_username.dart';
+import 'package:postly/core/usecases/usecase.dart';
+import 'package:postly/features/user/domain/entities/username.dart';
+import 'package:postly/features/user/domain/repositories/username_repository.dart';
+import 'package:postly/features/user/domain/usecases/get_username.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/mockito.dart';
