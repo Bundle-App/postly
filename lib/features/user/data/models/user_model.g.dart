@@ -1,18 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'username_model.dart';
+part of 'user_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-UsernameModel _$UsernameModelFromJson(Map<String, dynamic> json) {
-  return UsernameModel(
-    json['username'],
+UserModel _$UserModelFromJson(Map<String, dynamic> json) {
+  return UserModel(
+    username: json['username'] as String,
   );
 }
 
-Map<String, dynamic> _$UsernameModelToJson(UsernameModel instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'username': instance.username,
     };
