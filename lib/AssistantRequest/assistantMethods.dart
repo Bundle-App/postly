@@ -35,14 +35,12 @@ class AssistantMethods {
   }
 
   static getPost(url, context) async {
-    var storedUserId = await UserData.getUserId();
     var response = await RequestAssistant.getRequest(url);
     if (response == "Failed") {
       return;
     }
-    var postList = ((response as List).map((post) => Post.fromJson(post)))
-        .where((element) => element.userId == storedUserId)
-        .toList();
+    var postList =
+        (response as List).map((post) => Post.fromJson(post)).toList();
     Provider.of<PostList>(context, listen: false).getRecentPost(postList);
   }
 }

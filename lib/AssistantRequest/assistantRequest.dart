@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'package:Postly/services/storage.dart';
+
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
 class RequestAssistant {
@@ -13,13 +14,13 @@ class RequestAssistant {
     );
     try {
       if (response.statusCode == 200) {
-        String jsonData = response.body;
-        var decodeData = jsonDecode(jsonData);
+        var decodeData = jsonDecode(response.body);
         return decodeData;
       } else {
         return 'Failed';
       }
-    } catch (e) {
+    } on PlatformException catch (e) {
+      print(e.toString());
       return 'Failed';
     }
   }

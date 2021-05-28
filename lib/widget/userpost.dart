@@ -14,8 +14,7 @@ class UserPost extends StatelessWidget {
         color: Color(0xffffffff),
         boxShadow: [
           BoxShadow(
-              //blurRadius: 4,
-              color: Colors.grey,
+              color: Colors.blueGrey[100],
               offset: Offset(0, 2),
               spreadRadius: 0.5)
         ],

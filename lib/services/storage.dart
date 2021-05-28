@@ -15,6 +15,13 @@ class UserData {
     return valueStored;
   }
 
+  static Future<int> getPoint() async {
+    final pref = await SharedPreferences.getInstance();
+    final key = 'userPoint';
+    final valueStored = pref.getInt(key) ?? 0;
+    return valueStored;
+  }
+
   static setUserName(String username) async {
     final pref = await SharedPreferences.getInstance();
     pref.setString('username', username);
@@ -23,5 +30,10 @@ class UserData {
   static setUserId(int userId) async {
     final pref = await SharedPreferences.getInstance();
     pref.setInt('userId', userId);
+  }
+
+  static setPoints(int userPoint) async {
+    final pref = await SharedPreferences.getInstance();
+    pref.setInt('userPoint', userPoint);
   }
 }

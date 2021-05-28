@@ -17,8 +17,19 @@ class PickedUser with ChangeNotifier {
 
 class PostList with ChangeNotifier {
   List<Post> post;
-  getRecentPost(Iterable<Post> recentPost) {
+  getRecentPost(List<Post> recentPost) {
     post = recentPost;
+    print(post.length);
+    notifyListeners();
+  }
+
+  addNewPost(String title, String body) async {
+    var storedUserId = await UserData.getUserId();
+    post.insert(0, Post(storedUserId, post.length + 1, title, body));
+    print('newpost:$post');
+    print('userid:$storedUserId');
+    print('postid:${post.first.id}');
+    print(post.length);
     notifyListeners();
   }
 }
