@@ -33,6 +33,7 @@ class _CreatePostState extends State<CreatePost> {
     _userInputBody = _bodyController.text.trim();
   }
 
+  /// Method responsible for displaying a toast message
   void showToast(String message) {
     Fluttertoast.showToast(
       msg: message,
@@ -44,6 +45,9 @@ class _CreatePostState extends State<CreatePost> {
     );
   }
 
+  /// Method that validates that the text fields for the "title" and "body" is
+  /// not empty, if not, publishes the new post and then pops back to the home
+  /// screen
   void createPostHandler() {
     if (_userInputTitle.length < 1 && _userInputBody.length < 1) {
       showToast("Both fields cannot be empty");

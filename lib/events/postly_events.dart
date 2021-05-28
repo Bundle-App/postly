@@ -33,3 +33,5 @@ class CreatePostEvent extends PostlyEvents {
 
   CreatePostEvent({@required this.newPost});
 }
+
+class LoadingEvent extends PostlyEvents {}

@@ -237,7 +237,37 @@ class _HomeState extends State<Home> {
     }
 
     if (state == HomeState.ERROR) {
-      displayWidget = Center(child: Text(_errorMessage));
+      displayWidget = Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: Text(_errorMessage)),
+          SizedBox(
+            height: 16.0,
+          ),
+          TextButton(
+            onPressed: () {
+              BlocProvider.of<PostlyBloc>(context).add(GetPostlyDataEvent());
+            },
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all<Color>(kAccentColor),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
+              ),
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            child: Text(
+              "Reload",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      );
     }
 
     return displayWidget;
@@ -290,6 +320,8 @@ class _HomeState extends State<Home> {
 
                 updateUserPointLocally();
                 setState(() {});
+              } else if (state is LoadingState) {
+                setState(() => _homeState = HomeState.LOADING);
               }
             },
             builder: (context, state) {

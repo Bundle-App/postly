@@ -24,3 +24,5 @@ class CreatePostState extends PostlyStates {
 
   CreatePostState({@required this.newPost});
 }
+
+class LoadingState extends PostlyStates {}

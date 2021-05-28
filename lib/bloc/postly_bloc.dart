@@ -26,11 +26,15 @@ class PostlyBloc extends Bloc<PostlyEvents, PostlyStates> {
       yield NavigateToCreatePostState();
     } else if (event is CreatePostEvent) {
       yield CreatePostState(newPost: event.newPost);
+    } else if (event is LoadingEvent) {
+      yield LoadingState();
     }
   }
 
   Stream<PostlyStates> _mapFetchPostsEventToState(
       GetPostlyDataEvent event) async* {
+    yield LoadingState();
+
     User user;
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
