@@ -23,4 +23,4 @@ After creating the post, the user can either choose to publish their new post by
 ![Screenshot of the create post screen](https://drive.google.com/file/d/1Fn0j8Yf4h3QUa_rhU-b2R3ypDKytllWr/view?usp=sharing) 
 
 For every post a user creates and post, their accrued points is increased by 2 which is displayed on the home screen beside their username *please refer to the first screenshot*. When a user has accrued more than 16 points, when the app is initially launched, the user gets a dialog message **You are a legend** to notify them of their achievement and on dismissal of the message their point reverts back to *0*
-![Screenshot of the dialog message](https://drive.google.com/file/d/1ExVctbigfeH7E0G_udKia4S_Zj08LJR5/view?usp=sharing)
+![Screenshot of the dialog message](https://drive.google.com/uc?export=view&id=1ExVctbigfeH7E0G_udKia4S_Zj08LJR5)
