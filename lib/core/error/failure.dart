@@ -6,3 +6,7 @@ class ServerFailure extends Failure {}
 
 ///cache failure class that represents failure from local data calls
 class CacheFailure extends Failure {}
+
+class ServerException implements Exception {}
+
+class CacheException implements Exception {}
