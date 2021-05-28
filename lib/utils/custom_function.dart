@@ -1,4 +1,6 @@
 class CustomFunction {
+  /// Method responsible for determining the metric badge title of a user based
+  /// on their accrued points
   String badgeMetric(int points) {
     if (points < 6) return "Beginner";
 

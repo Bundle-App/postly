@@ -4,8 +4,6 @@ import 'package:flutter/cupertino.dart';
 
 abstract class PostlyStates {}
 
-class LoadingState extends PostlyStates {}
-
 class FetchedDataState extends PostlyStates {
   User user;
   List<Post> posts;
@@ -26,5 +24,3 @@ class CreatePostState extends PostlyStates {
 
   CreatePostState({@required this.newPost});
 }
-
-class UserIsAProfessionalState extends PostlyStates {}

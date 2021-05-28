@@ -29,10 +29,16 @@ class _HomeState extends State<Home> {
 
   final customFunction = CustomFunction();
 
+  /// Variable holding the user object
   User _user;
+
+  /// Container for the post fetched from the API
   List<Post> _posts = [];
   String _errorMessage;
 
+  /// This variable is toggled to "true" when the user is scrolling and "false"
+  /// when the user stops scrolling. It is utilized in animating the state of the
+  /// floating action button
   bool _isScrolling = false;
 
   /// This method handles adding the bloc event responsible for navigating to the
@@ -85,8 +91,8 @@ class _HomeState extends State<Home> {
     );
   }
 
-  /// This method is responsible for showing the badge metric title based on the
-  /// user's acquired points
+  /// This method is responsible for displaying the appropriate Text Widget based
+  /// on the metric points accrued by a user
   Widget badgeMetric(int points) {
     Widget badgeTitle;
 
@@ -119,7 +125,7 @@ class _HomeState extends State<Home> {
     if (state == HomeState.LOADING) {
       displayWidget = Center(
         child: CircularProgressIndicator(
-          backgroundColor: Colors.blue,
+          backgroundColor: kAccentColor,
         ),
       );
     }
@@ -231,7 +237,7 @@ class _HomeState extends State<Home> {
     }
 
     if (state == HomeState.ERROR) {
-      displayWidget = Center(child: Text("Error"));
+      displayWidget = Center(child: Text(_errorMessage));
     }
 
     return displayWidget;
@@ -308,7 +314,10 @@ class _HomeState extends State<Home> {
                 ),
               ),
               child: _isScrolling
-                  ? Icon(Icons.add)
+                  ? Icon(
+                      Icons.add,
+                      color: kSecondaryColor,
+                    )
                   : Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [

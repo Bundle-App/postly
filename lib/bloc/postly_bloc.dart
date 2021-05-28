@@ -31,8 +31,6 @@ class PostlyBloc extends Bloc<PostlyEvents, PostlyStates> {
 
   Stream<PostlyStates> _mapFetchPostsEventToState(
       GetPostlyDataEvent event) async* {
-    yield LoadingState();
-
     User user;
 
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
@@ -41,6 +39,7 @@ class PostlyBloc extends Bloc<PostlyEvents, PostlyStates> {
     bool checkIfPresent = sharedPreferences.containsKey("storedUser");
 
     try {
+      /// If no user data is found on the device, a network call is made to get one
       if (!checkIfPresent) {
         final data = await _apiService.getUser();
 
@@ -48,8 +47,8 @@ class PostlyBloc extends Bloc<PostlyEvents, PostlyStates> {
 
         int randomNumber = random.nextInt(data.length);
 
-        print("RANDOM: $randomNumber");
-
+        /// A user is selected at random from the list of user data fetched from
+        /// the network call
         user = User.fromJson(data[randomNumber]);
 
         /// Encoding the json data to String to be saved locally using SharePreferences
@@ -58,7 +57,6 @@ class PostlyBloc extends Bloc<PostlyEvents, PostlyStates> {
         /// Saving the user data locally using SharePreferences
         sharedPreferences.setString("storedUser", encodedUserData);
       } else {
-        print("In ELSE BLOCK");
         String encodedUserData = sharedPreferences.get("storedUser");
 
         dynamic userDataDecode = jsonDecode(encodedUserData);
@@ -77,7 +75,6 @@ class PostlyBloc extends Bloc<PostlyEvents, PostlyStates> {
 
       add(FetchedDataEvent(user: user, posts: postList));
     } catch (e) {
-      /// TODO: Handle error
       add(OnErrorEvent(errorMessage: e.toString()));
     }
   }
