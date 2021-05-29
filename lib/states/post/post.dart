@@ -27,7 +27,7 @@ class PostState with ChangeNotifier {
 
   CombinedPosts _posts;
 
-  Future<CombinedPosts> getPosts(bool isRefresh) async {
+  Future<CombinedPosts> getPosts({bool isRefresh = false}) async {
     final completer = Completer<CombinedPosts>();
 
     if (_posts != null && !isRefresh) {

@@ -41,7 +41,7 @@ class AuthServiceImpl implements AuthService {
         path: 'users',
       );
 
-      final response = await httpService.post(request);
+      final response = await httpService.get(request);
       final responseData = jsonDecode(response.body);
 
       if (!response.isSuccessful) {
@@ -55,13 +55,13 @@ class AuthServiceImpl implements AuthService {
 
       return result;
     } on SocketException catch (e, t) {
-      _log.severe('getUser', e);
+      _log.info('getUser', e);
       throw CustomException(_socketExceptionMessage);
     } on FormatException catch (e, t) {
-      _log.severe('getUser', e);
+      _log.info('getUser', e);
       throw CustomException(_unexpectedExceptionMessage);
     } catch (e, t) {
-      _log.severe('getUser', e);
+      _log.severe('getUser', e.stackTrace);
       throw CustomException(_unexpectedExceptionMessage);
     }
   }

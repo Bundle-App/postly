@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Postly/commons/providers.dart';
 import 'package:Postly/commons/routes.dart';
+import 'package:Postly/screens/splash/splash.dart';
 import 'package:Postly/services/auth/auth.dart';
 import 'package:Postly/services/http/http.dart';
 import 'package:Postly/services/post/post.dart';
@@ -41,7 +42,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     final httpService = HttpServiceImpl(
-      'https://jsonplaceholder.typicode.com/',
+      'https://jsonplaceholder.typicode.com',
     );
     final simpleStorage = SecureStorageService(FlutterSecureStorage());
     final postStorage = PostStorageServiceImpl(widget.database);

@@ -11,7 +11,7 @@ List<SingleChildWidget> constructProviders({
   @required PostService postService,
 }) {
   return <SingleChildWidget>[
-    Provider<AuthState>(create: (_) => AuthState(authService)),
+    ChangeNotifierProvider<AuthState>(create: (_) => AuthState(authService)),
     ChangeNotifierProxyProvider<AuthState, PostState>(
       create: (context) => PostState(postService),
       update: (context, authState, postState) =>

@@ -42,7 +42,7 @@ class PostServiceImpl implements PostService {
         path: 'posts',
       );
 
-      final response = await httpService.post(request);
+      final response = await httpService.get(request);
       final responseData = jsonDecode(response.body);
 
       if (!response.isSuccessful) {

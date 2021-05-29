@@ -13,7 +13,7 @@ abstract class User with _$User {
 
   @JsonSerializable(explicitToJson: true)
   const factory User({
-    @JsonKey(name: 'id') String id,
+    @JsonKey(name: 'id') int id,
     @JsonKey(name: 'username', defaultValue: '') String username,
     @JsonKey(name: 'name', defaultValue: '') String name,
     @JsonKey(name: 'email', defaultValue: '') String email,

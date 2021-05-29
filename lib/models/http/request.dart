@@ -22,28 +22,13 @@ class JsonRequest extends HttpRequest {
   JsonRequest({
     @required String path,
     this.payload = const <String, dynamic>{},
-    Map<String, String> extraHeader,
+    Map<String, String> headers,
     String overrideUrl,
   }) : super(
           path,
-          _getHeaders(extraHeader),
+          headers,
           overrideUrl,
         );
-
-  static Map<String, String> _getHeaders(
-    Map<String, String> extraHeader,
-  ) {
-    final merged = <String, String>{};
-    final defaultHeaders = {
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-    };
-
-    merged.addAll(defaultHeaders);
-    if (extraHeader != null) merged.addAll(extraHeader);
-
-    return merged;
-  }
 
   bool get hasPayload => this.payload.isNotEmpty;
 }

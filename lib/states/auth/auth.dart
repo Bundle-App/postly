@@ -21,7 +21,7 @@ class AuthState with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> getUser({@required String email}) async {
+  Future<void> getUser() async {
     final localUser = await authService.getLocalUser();
     if (localUser != null) {
       this.user = localUser;
