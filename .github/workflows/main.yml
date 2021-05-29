@@ -1,4 +1,4 @@
-name: Main Workflow
+name: ci
 
 # This workflow is triggered on pushes to the repository.
 
