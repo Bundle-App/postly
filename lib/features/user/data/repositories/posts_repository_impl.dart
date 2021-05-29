@@ -19,8 +19,6 @@ class PostsRepositoryImpl implements PostsRepository {
   @override
   Future<Either<Failure, List<Posts>>> getPosts() async {
     var isConnected = await networkInfo.isConnected;
-    // ignore: avoid_print
-    print('connected $isConnected');
     return await getPostsSwitchCase(isConnected);
   }
 
