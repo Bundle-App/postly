@@ -39,7 +39,7 @@ class TextFieldContainer extends StatelessWidget {
           labelText: text,
           hasFloatingPlaceholder: false,
           filled: true,
-          fillColor: Colors.blueGrey[50],
+          fillColor: Color(0xffe3f2fd),
           labelStyle: notoSansTextStyle(20.0, 0xff222222, FontWeight.w300),
           enabledBorder: OutlineInputBorder(
               borderSide: BorderSide(color: Colors.grey),

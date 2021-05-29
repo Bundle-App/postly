@@ -21,6 +21,7 @@ class AssistantMethods {
     }
     var response = await RequestAssistant.getRequest(url);
     if (response == 'Failed') {
+      print('enter here');
       return;
     }
     Random random = new Random();
@@ -34,6 +35,7 @@ class AssistantMethods {
         .getPickedUser(user.username, user.id);
   }
 
+//this collects/fetches post from the api
   static getPost(url, context) async {
     var response = await RequestAssistant.getRequest(url);
     if (response == "Failed") {

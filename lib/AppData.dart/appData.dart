@@ -19,17 +19,13 @@ class PostList with ChangeNotifier {
   List<Post> post;
   getRecentPost(List<Post> recentPost) {
     post = recentPost;
-    print(post.length);
     notifyListeners();
   }
 
+//this methods adds/update new post to the list, this notifies the controller that there is a new addition
   addNewPost(String title, String body) async {
     var storedUserId = await UserData.getUserId();
     post.insert(0, Post(storedUserId, post.length + 1, title, body));
-    print('newpost:$post');
-    print('userid:$storedUserId');
-    print('postid:${post.first.id}');
-    print(post.length);
     notifyListeners();
   }
 }

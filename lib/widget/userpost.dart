@@ -11,7 +11,7 @@ class UserPost extends StatelessWidget {
       padding: EdgeInsets.all(20.0),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
-        color: Color(0xffffffff),
+        color: Color(0xffe3f2fd),
         boxShadow: [
           BoxShadow(
               color: Colors.blueGrey[100],

@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 
+//api call request
 class RequestAssistant {
   static Future<dynamic> getRequest(url) async {
     http.Response response = await http.get(
@@ -19,9 +20,8 @@ class RequestAssistant {
       } else {
         return 'Failed';
       }
-    } on PlatformException catch (e) {
-      print(e.toString());
-      return 'Failed';
+    } catch (e) {
+      throw Exception(e.toString());
     }
   }
 }

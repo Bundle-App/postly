@@ -1,15 +1,16 @@
 import 'package:Postly/AppData.dart/appData.dart';
 import 'package:Postly/AssistantRequest/assistantMethods.dart';
 import 'package:Postly/constant/url.dart';
-import 'package:Postly/screens/connection.dart';
+
 import 'package:Postly/services/storage.dart';
 import 'package:Postly/util/button.dart';
 import 'package:Postly/util/font.dart';
+import 'package:Postly/util/metrics.dart';
 import 'package:Postly/util/text_form.dart';
 import 'package:Postly/util/validator.dart';
 import 'package:Postly/widget/badge.dart';
 import 'package:Postly/widget/userpost.dart';
-import 'package:connectivity/connectivity.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String titleController;
   String messageController;
   int _points;
+  final BadgeMetric badge = new BadgeMetric();
 
   @override
   void initState() {
@@ -56,6 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.didChangeDependencies();
   }
 
+//method to notify the listener that a new post has been added making use of provider for state management
   void addPost() async {
     var form = _formKey.currentState;
     if (form.validate()) {
@@ -70,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+//method to display you are a postly legend if points greater than 16
   _checkScoredPoints() async {
     var _point = await UserData.getPoint();
     setState(() {
@@ -80,10 +84,8 @@ class _MyHomePageState extends State<MyHomePage> {
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
+          backgroundColor: Color(0xffbbdefb),
           content: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-            ),
             child: Text("You are a postly legend"),
           ),
         ),
@@ -103,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final name = Provider.of<PickedUser>(context).selectedUser;
     final userPost = Provider.of<PostList>(context).post;
     return Scaffold(
+        backgroundColor: Color(0xffbbdefb),
         appBar: AppBar(
           title: Text(widget.title),
           centerTitle: true,
@@ -112,27 +115,25 @@ class _MyHomePageState extends State<MyHomePage> {
             : Column(
                 children: [
                   Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        ' $name ',
-                        style: TextStyle(fontSize: 20.0),
-                      )),
-                  if (_points < 6)
-                    Badge('Beginner')
-                  else if (_points >= 6 && _points < 10)
-                    Badge('Intermediate')
-                  else if (_points >= 10 && _points <= 16)
-                    Badge('Professional')
-                  else
-                    Badge('Postly Legend'),
-                  Container(
-                      alignment: Alignment.center,
-                      padding: EdgeInsets.all(10.0),
-                      child: Text(
-                        '$_points points',
-                        style: TextStyle(fontSize: 20.0),
-                      )),
+                    margin: EdgeInsets.all(10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          ' $name ',
+                          style: TextStyle(fontSize: 20.0),
+                        ),
+                        CircleAvatar(
+                          radius: 15.0,
+                          child: Text(
+                            '$_points',
+                            style: TextStyle(fontSize: 13.0),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Badge(badge.badge(_points)),
                   Expanded(
                     child: ListView.builder(
                         itemCount: userPost.length,
@@ -145,6 +146,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onPressed: () {
             showModalBottomSheet(
                 isScrollControlled: true,
+                backgroundColor: Color(0xffbbdefb),
                 enableDrag: true,
                 context: context,
                 builder: (builder) => bottomSheet(context));
@@ -154,6 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
+//Bottom sheet
   Widget bottomSheet(context) {
     return Container(
         width: MediaQuery.of(context).size.width,
@@ -168,8 +171,10 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BackButton(),
-                //Icon(Icons.keyboard_arrow_left),
-                Text('Create Post', style: TextStyle(fontSize: 20.0)),
+                Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Text('Create Post', style: TextStyle(fontSize: 20.0)),
+                ),
                 Text(
                   '',
                 ),
@@ -196,6 +201,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
+//entry text form field for posting
   Widget formField() {
     return Container(
         height: 500,
@@ -210,7 +216,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextFieldContainer(
               obscure: false,
               textInputType: TextInputType.text,
-              validator: TitleValidator.validate,
+              validator: FormValidator.validate,
               onSaved: (val) {
                 titleController = val;
               },
@@ -226,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
             TextFieldContainer(
               obscure: false,
               textInputType: TextInputType.text,
-              validator: TitleValidator.validate,
+              validator: FormValidator.validate,
               onSaved: (val) {
                 messageController = val;
               },
