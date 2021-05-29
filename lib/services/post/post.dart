@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:Postly/commons/strings.dart';
 import 'package:Postly/exceptions/exception.dart';
 import 'package:Postly/models/http/request.dart';
 import 'package:Postly/models/http/response.dart';
@@ -25,10 +26,6 @@ abstract class PostService {
 
 class PostServiceImpl implements PostService {
   final _log = Logger('PostServiceImpl');
-
-  final _unexpectedExceptionMessage = 'An error occurred unexpectedly';
-  final _socketExceptionMessage =
-      'Operation failed. Check your network and retry';
 
   final PostStorageService storage;
   final HttpService httpService;
@@ -57,13 +54,13 @@ class PostServiceImpl implements PostService {
       return result;
     } on SocketException catch (e, t) {
       _log.severe('getPosts', e);
-      throw CustomException(_socketExceptionMessage);
+      throw CustomException(PostlyStrings.socketExceptionMessage);
     } on FormatException catch (e, t) {
       _log.severe('getPosts', e);
-      throw CustomException(_unexpectedExceptionMessage);
+      throw CustomException(PostlyStrings.unexpectedExceptionMessage);
     } catch (e, t) {
       _log.severe('getPosts', e);
-      throw CustomException(_unexpectedExceptionMessage);
+      throw CustomException(PostlyStrings.unexpectedExceptionMessage);
     }
   }
 

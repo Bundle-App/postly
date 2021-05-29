@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:Postly/commons/strings.dart';
 import 'package:Postly/exceptions/exception.dart';
 import 'package:Postly/models/http/request.dart';
 import 'package:Postly/models/http/response.dart';
@@ -22,12 +23,7 @@ abstract class AuthService {
 }
 
 class AuthServiceImpl implements AuthService {
-  final _userStorageKey = 'user_object';
   final _log = Logger('AuthServiceImpl');
-
-  final _unexpectedExceptionMessage = 'An error occurred unexpectedly';
-  final _socketExceptionMessage =
-      'Operation failed. Check your network and retry';
 
   final SimpleStorageService storage;
   final HttpService httpService;
@@ -56,24 +52,25 @@ class AuthServiceImpl implements AuthService {
       return result;
     } on SocketException catch (e, t) {
       _log.info('getUser', e);
-      throw CustomException(_socketExceptionMessage);
+      throw CustomException(PostlyStrings.socketExceptionMessage);
     } on FormatException catch (e, t) {
       _log.info('getUser', e);
-      throw CustomException(_unexpectedExceptionMessage);
+      throw CustomException(PostlyStrings.unexpectedExceptionMessage);
     } catch (e, t) {
-      _log.severe('getUser', e.stackTrace);
-      throw CustomException(_unexpectedExceptionMessage);
+      _log.severe('getUser', e);
+      throw CustomException(PostlyStrings.unexpectedExceptionMessage);
     }
   }
 
   @override
   Future<void> setLocalUser(User user) async {
-    await storage.putString(_userStorageKey, jsonEncode(user.toJson()));
+    await storage.putString(
+        PostlyStrings.userStorageKey, jsonEncode(user.toJson()));
   }
 
   @override
   Future<User> getLocalUser() async {
-    final userString = await storage.getString(_userStorageKey);
+    final userString = await storage.getString(PostlyStrings.userStorageKey);
     if (userString == null) return null;
 
     final userMap = jsonDecode(userString);

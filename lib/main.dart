@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:Postly/commons/providers.dart';
 import 'package:Postly/commons/routes.dart';
+import 'package:Postly/commons/strings.dart';
 import 'package:Postly/screens/splash/splash.dart';
 import 'package:Postly/services/auth/auth.dart';
 import 'package:Postly/services/http/http.dart';
@@ -45,7 +46,12 @@ class _MyAppState extends State<MyApp> {
       'https://jsonplaceholder.typicode.com',
     );
     final simpleStorage = SecureStorageService(FlutterSecureStorage());
-    final postStorage = PostStorageServiceImpl(widget.database);
+    final postStorageRef =
+        stringMapStoreFactory.store(PostlyStrings.postStoreName);
+    final postStorage = PostStorageServiceImpl(
+      widget.database,
+      postStorageRef,
+    );
     authService = AuthServiceImpl(simpleStorage, httpService);
     postService = PostServiceImpl(postStorage, httpService);
   }
@@ -59,6 +65,7 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MaterialApp(
         title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
         initialRoute: SplashScreen.route,
         routes: routeTable,
       ),

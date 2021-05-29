@@ -39,8 +39,9 @@ class _PostsScreenState extends State<PostsScreen> {
     bool isRefresh = false,
     bool isRefreshLocal = false,
   }) {
-    final postService = context.read<PostState>();
-    _postsFuture = postService.getPosts(
+    final postState = context.read<PostState>();
+
+    _postsFuture = postState.getPosts(
       isRefresh: isRefresh,
       isRefreshLocal: isRefreshLocal,
     );

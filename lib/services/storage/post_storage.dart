@@ -1,9 +1,8 @@
 import 'dart:async';
+import 'package:Postly/commons/strings.dart';
 import 'package:Postly/models/post/post.dart';
 import 'package:logging/logging.dart';
 import 'package:sembast/sembast.dart';
-
-const String postStoreName = '_post_store_v1';
 
 abstract class PostStorageService {
   FutureOr<void> storeCreatedPost(Post post);
@@ -12,21 +11,16 @@ abstract class PostStorageService {
 }
 
 class PostStorageServiceImpl implements PostStorageService {
-  Database db;
-  StoreRef _postStore;
-  bool hasTimestamp;
+  final Database db;
+  final StoreRef postStore;
 
-  final timeStampKey = 'timestamp';
-
-  PostStorageServiceImpl(this.db) {
-    _postStore = stringMapStoreFactory.store(postStoreName);
-  }
+  PostStorageServiceImpl(this.db, this.postStore);
 
   final _log = Logger('PostStorageServiceImpl');
 
   @override
   FutureOr<void> storeCreatedPost(Post post) async {
-    await _postStore.record(post.id.toString()).put(
+    await postStore.record(post.id.toString()).put(
           db,
           post.toJson(),
           merge: true,
@@ -35,7 +29,7 @@ class PostStorageServiceImpl implements PostStorageService {
 
   @override
   Future<List<Post>> getCreatedPosts() async {
-    final records = await _postStore.find(db);
+    final records = await postStore.find(db);
     final postsList = <Post>[];
 
     records.forEach((record) {
@@ -52,7 +46,7 @@ class PostStorageServiceImpl implements PostStorageService {
   @override
   FutureOr<bool> dropPostStore() async {
     try {
-      await _postStore.drop(db);
+      await postStore.drop(db);
       return true;
     } catch (e, t) {
       _log.severe('Error in dropPostStore: $e, \nStackTrace: $t');

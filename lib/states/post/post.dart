@@ -22,10 +22,11 @@ class PostState with ChangeNotifier {
   Future<void> createPost(Post post) async {
     await postService.createPost(post);
 
-    await authState.updatePoints(clearPoints: false);
+    await authState.updatePoints();
   }
 
-  CombinedPosts _posts;
+  @visibleForTesting
+  CombinedPosts posts;
 
   Future<CombinedPosts> getPosts({
     bool isRefresh = false,
@@ -33,15 +34,15 @@ class PostState with ChangeNotifier {
   }) async {
     final completer = Completer<CombinedPosts>();
 
-    if (_posts != null && !isRefresh && !isRefreshLocal) {
-      completer.complete(_posts);
+    if (posts != null && !isRefresh && !isRefreshLocal) {
+      completer.complete(posts);
       return completer.future;
     }
 
     final createdByMe = await postService.getLocalPosts();
-    if (isRefreshLocal) {
+    if (isRefreshLocal && !isRefresh) {
       //refresh only local posts after post creation
-      final previousRemote = _posts.fetchedRemotely;
+      final previousRemote = posts.fetchedRemotely;
       final combined = CombinedPosts(
         createdByMe: createdByMe,
         fetchedRemotely: previousRemote,
@@ -62,7 +63,7 @@ class PostState with ChangeNotifier {
       fetchedRemotely: fetchedRemotely,
     );
 
-    _posts = combined;
+    posts = combined;
     completer.complete(combined);
     return completer.future;
   }

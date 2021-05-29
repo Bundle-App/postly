@@ -31,4 +31,21 @@ class JsonRequest extends HttpRequest {
         );
 
   bool get hasPayload => this.payload.isNotEmpty;
+
+  @override
+  int get hashCode =>
+      path.hashCode ^
+      payload.hashCode ^
+      headers.hashCode ^
+      overrideUrl.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is JsonRequest &&
+          runtimeType == other.runtimeType &&
+          path == other.path &&
+          payload == other.payload &&
+          headers == other.headers &&
+          overrideUrl == other.overrideUrl;
 }
