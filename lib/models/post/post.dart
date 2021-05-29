@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:Postly/models/user/address.dart';
-import 'package:Postly/models/user/company.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'post.freezed.dart';

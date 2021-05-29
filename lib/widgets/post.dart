@@ -24,16 +24,13 @@ class PostTile extends StatelessWidget {
                 SizedBox(height: 10),
                 Text(
                   '${post.title}',
-                  maxLines: 1,
-                  style: TextStyle(
-                      fontWeight: FontWeight.w500, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 8.0, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8),
                   child: Text(
                     '${post.body}',
-                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontWeight: FontWeight.w300,

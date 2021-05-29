@@ -26,7 +26,7 @@ class PostStorageServiceImpl implements PostStorageService {
 
   @override
   FutureOr<void> storeCreatedPost(Post post) async {
-    await _postStore.record(post.id).put(
+    await _postStore.record(post.id.toString()).put(
           db,
           post.toJson(),
           merge: true,

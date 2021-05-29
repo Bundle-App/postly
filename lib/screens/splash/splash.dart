@@ -1,5 +1,5 @@
 import 'package:Postly/models/user/user.dart';
-import 'package:Postly/screens/dashboard.dart';
+import 'package:Postly/screens/post/index.dart';
 import 'package:Postly/states/auth/auth.dart';
 import 'package:Postly/theme/colors.dart';
 import 'package:Postly/widgets/error.dart';
@@ -19,17 +19,45 @@ class _SplashScreenState extends State<SplashScreen>
   Future<void> _userFuture;
   bool _navigatesToNext;
 
+  AnimationController _controller;
+  Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
 
     _assignUserFuture();
     _navigatesToNext = false;
+
+    _controller = AnimationController(
+        duration: const Duration(milliseconds: 1200),
+        vsync: this,
+        value: 0.5,
+        lowerBound: 0.5,
+        upperBound: 1);
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeIn,
+    );
+
+    _controller.forward();
+
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) _controller.reverse();
+
+      if (status == AnimationStatus.dismissed) _controller.forward();
+    });
   }
 
   void _assignUserFuture() async {
     final authState = context.read<AuthState>();
     _userFuture = authState.getUser();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -50,7 +78,7 @@ class _SplashScreenState extends State<SplashScreen>
               _navigatesToNext = true;
               await Navigator.pushReplacementNamed(
                 context,
-                DashboardScreen.route,
+                PostsScreen.route,
               );
             }
           });
@@ -70,7 +98,22 @@ class _SplashScreenState extends State<SplashScreen>
                 );
               }
 
-              return Container();
+              return Container(
+                child: Center(
+                  child: FadeTransition(
+                    opacity: _animation,
+                    child: Text(
+                      'Postly',
+                      style: TextStyle(
+                        fontSize: 50,
+                        color: PostlyColors.bundlePurple,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2,
+                      ),
+                    ),
+                  ),
+                ),
+              );
             }),
           );
         },

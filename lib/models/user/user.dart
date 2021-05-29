@@ -1,7 +1,6 @@
 import 'dart:convert';
 
-import 'package:Postly/models/user/address.dart';
-import 'package:Postly/models/user/company.dart';
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
 part 'user.freezed.dart';
@@ -15,34 +14,44 @@ abstract class User with _$User {
   const factory User({
     @JsonKey(name: 'id') int id,
     @JsonKey(name: 'username', defaultValue: '') String username,
-    @JsonKey(name: 'name', defaultValue: '') String name,
-    @JsonKey(name: 'email', defaultValue: '') String email,
-    @JsonKey(name: 'address') Address address,
-    @JsonKey(name: 'phone', defaultValue: '') String phone,
-    @JsonKey(name: 'website', defaultValue: '') String website,
-    @JsonKey(name: 'company') Company company,
     @Default(0) int points,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
-  bool get hasCompany => company != null;
-
-  bool get hasAddress => address != null;
-
   bool get isBeginner {
-    return true;
+    return points < 6;
   }
 
   bool get isIntermediate {
-    return true;
+    return points >= 6 && points < 10;
   }
 
   bool get isProfessional {
-    return true;
+    return points >= 10 && points <= 16;
   }
 
   bool get isLegend {
-    return true;
+    return points > 16;
+  }
+
+  String get badge {
+    if (isBeginner) return 'Beginner';
+
+    if (isIntermediate) return 'Intermediate';
+
+    if (isProfessional) return 'Professional';
+
+    return 'Legend';
+  }
+
+  Color get badgeColor {
+    if (isBeginner) return Colors.red;
+
+    if (isIntermediate) return Colors.yellow;
+
+    if (isProfessional) return Colors.blue;
+
+    return Colors.green;
   }
 }

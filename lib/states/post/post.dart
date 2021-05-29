@@ -27,15 +27,28 @@ class PostState with ChangeNotifier {
 
   CombinedPosts _posts;
 
-  Future<CombinedPosts> getPosts({bool isRefresh = false}) async {
+  Future<CombinedPosts> getPosts({
+    bool isRefresh = false,
+    bool isRefreshLocal = false,
+  }) async {
     final completer = Completer<CombinedPosts>();
 
-    if (_posts != null && !isRefresh) {
+    if (_posts != null && !isRefresh && !isRefreshLocal) {
       completer.complete(_posts);
       return completer.future;
     }
 
     final createdByMe = await postService.getLocalPosts();
+    if (isRefreshLocal) {
+      //refresh only local posts after post creation
+      final previousRemote = _posts.fetchedRemotely;
+      final combined = CombinedPosts(
+        createdByMe: createdByMe,
+        fetchedRemotely: previousRemote,
+      );
+      completer.complete(combined);
+      return completer.future;
+    }
 
     final fetchedRemotelyResponse = await postService.getPosts();
     if (!fetchedRemotelyResponse.isSuccessful) {

@@ -59,9 +59,6 @@ class _MyAppState extends State<MyApp> {
       ),
       child: MaterialApp(
         title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
         initialRoute: SplashScreen.route,
         routes: routeTable,
       ),
