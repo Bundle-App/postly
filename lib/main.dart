@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'service_locator.dart' as di;
 
-void main() {
-  runApp(const Postly());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  //initialize dependency injection
+  await di.init();
+  runApp(const ProviderScope(child: Postly()));
 }
 
 class Postly extends StatelessWidget {
