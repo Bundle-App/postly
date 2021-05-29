@@ -2,15 +2,13 @@
 
 Postly a social app that lets you share your thoughts and get comments from the community.
 
-## Getting Started
+## Run Instructions
 
-This project is a starting point for a Flutter application.
+After pulling source code, run the following command to initiate code generator.
 
-A few resources to get you started if this is your first Flutter project:
+`flutter pub pub run build_runner build --delete-conflicting-outputs`
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+To watch code generator changes during hot reload:
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+`flutter pub run build_runner watch`
+
