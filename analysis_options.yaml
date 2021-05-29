@@ -6,3 +6,4 @@ analyzer:
     avoid_dynamic_calls: ignore
     overridden_fields: ignore
     cascade_invocations: ignore
+    annotate_overrides: ignore
