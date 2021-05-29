@@ -5,6 +5,7 @@ import 'package:Postly/screens/connection.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
+//this screen checks if there is a network connection or not
 class FirstScreen extends StatefulWidget {
   @override
   _FirstScreenState createState() => _FirstScreenState();

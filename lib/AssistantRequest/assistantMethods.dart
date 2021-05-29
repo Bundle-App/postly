@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:Postly/services/storage.dart';
 
 class AssistantMethods {
+  //this fetches list of users from api and randomly selects which is to be used throughout the app
   static getUsersList(url, context) async {
     var storedUsername = await UserData.getUsername();
     var storedUserId = await UserData.getUserId();

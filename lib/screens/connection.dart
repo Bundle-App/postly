@@ -1,6 +1,7 @@
 import 'package:Postly/util/font.dart';
 import 'package:flutter/material.dart';
 
+//this screens shows there is no internet connection
 class Connection extends StatelessWidget {
   static const routeName = 'connection';
   @override

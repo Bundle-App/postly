@@ -2,6 +2,7 @@ import 'package:Postly/models/post.dart';
 import 'package:Postly/services/storage.dart';
 import 'package:flutter/foundation.dart';
 
+//This notifies the app of any changes in the app. it contains majorly data for the app which is passed to the ui
 class PickedUser with ChangeNotifier {
   String selectedUser;
   int selectedUserId;

@@ -73,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-//method to display you are a postly legend if points greater than 16
+//method to display you are a postly legend if points greater than 16 and also fetches local stored points
   _checkScoredPoints() async {
     var _point = await UserData.getPoint();
     setState(() {
@@ -156,7 +156,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ));
   }
 
-//Bottom sheet
+//Bottom sheet for the form
   Widget bottomSheet(context) {
     return Container(
         width: MediaQuery.of(context).size.width,
