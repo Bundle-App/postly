@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/failure.dart';
-import '../../../../core/utils/strings.dart';
+import '../../../../core/utils/extensions.dart';
 import '../models/user_model.dart';
 
 abstract class UserRemoteDataSource {
@@ -18,10 +18,8 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
 
   @override
   Future<UserModel> getRemoteUser() async {
-    var baseUrl = Strings.baseUrl;
-    var url = '$baseUrl/users';
     final response = await client.get(
-      Uri.parse(url),
+      Uri.parse('users'.baseurl),
     );
 
     if (response.statusCode == 200) {
