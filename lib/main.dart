@@ -1,43 +1,31 @@
+import 'package:Postly/cubit/user_cubit.dart';
+import 'package:Postly/repo/user_repo.dart';
+import 'package:Postly/routes.dart';
+import 'package:Postly/util/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
-  runApp(Postly());
+  runApp(MultiBlocProvider(providers: [
+    BlocProvider<UserCubit>(
+      create: (BuildContext context) => UserCubit(UserRepo()),
+    ),
+  ], child: MyApp()));
 }
 
-class Postly extends StatelessWidget {
-  // This widget is the root of your application.
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Postly',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
+        primaryColor: AppColors.primary,
+        accentColor: AppColors.primary,
+        fontFamily: 'Quicksand',
+        // scaffoldBackgroundColor: AppColors.white
       ),
-      home: MyHomePage(title: 'Posts'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Text(widget.title),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      onGenerateRoute: Routes.getRoute,
     );
   }
 }
