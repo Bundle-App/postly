@@ -21,6 +21,7 @@ class Postly extends StatelessWidget {
         ],
         child: MaterialApp(
             title: 'Postly',
+            debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.blue,
               visualDensity: VisualDensity.adaptivePlatformDensity,

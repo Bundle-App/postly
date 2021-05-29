@@ -22,6 +22,7 @@ class _FirstScreenState extends State<FirstScreen> {
       setState(() {
         isConnected = (result != ConnectivityResult.none);
       });
+      print(isConnected);
     });
   }
 
