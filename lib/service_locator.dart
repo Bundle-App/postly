@@ -14,6 +14,7 @@ import 'features/user/data/repositories/user_repository_impl.dart';
 import 'features/user/domain/repositories/posts_repository.dart';
 import 'features/user/domain/repositories/user_repository.dart';
 import 'features/user/domain/usecases/get_user.dart';
+import 'features/user/presentation/notifiers/points_notifier.dart';
 import 'features/user/presentation/notifiers/posts_notifier.dart';
 import 'features/user/presentation/notifiers/user_notifier.dart';
 
@@ -26,6 +27,10 @@ Future<void> init() async {
   );
   sl.registerLazySingleton<PostsNotifier>(
     () => PostsNotifier(sl()),
+  );
+
+  sl.registerLazySingleton<PointsNotifier>(
+    () => PointsNotifier(sl()),
   );
 
   ///remote data source
