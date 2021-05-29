@@ -17,7 +17,6 @@ class UserCubit extends Cubit<UserState> {
     emit(UserProcessing());
     try {
       var savedUser = await userRepo.checkUser();
-      savedUser=null;
       if (savedUser == null) {
         processNewUser();
       } else {
