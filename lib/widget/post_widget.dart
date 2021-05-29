@@ -1,5 +1,6 @@
 import 'package:Postly/model/post.dart';
 import 'package:Postly/util/constants.dart';
+import 'package:Postly/util/helper_functions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class PostWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            post.title,
+            post.title.toInitialCaps(),
             style: TextStyle(
                 color: AppColors.black,
                 fontSize: 16,
@@ -31,7 +32,7 @@ class PostWidget extends StatelessWidget {
             height: 6,
           ),
           Text(
-            post.story,
+            post.body,
             style: TextStyle(
                 color: AppColors.black,
                 fontSize: 13,
@@ -43,7 +44,7 @@ class PostWidget extends StatelessWidget {
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
-              post.date,
+              '9 May, 21',
               style: TextStyle(
                   color: AppColors.grey,
                   fontSize: 12,

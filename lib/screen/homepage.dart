@@ -1,5 +1,5 @@
-import 'package:Postly/cubit/user_cubit.dart';
-import 'package:Postly/model/post.dart';
+import 'package:Postly/cubit/badge_cubit.dart';
+import 'package:Postly/cubit/posts_cubit.dart';
 import 'package:Postly/model/user.dart';
 import 'package:Postly/util/constants.dart';
 import 'package:Postly/widget/custom_button.dart';
@@ -7,11 +7,13 @@ import 'package:Postly/widget/post_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:Postly/util/helper_functions.dart';
 
 class Homepage extends StatefulWidget {
   final User user;
 
   const Homepage({Key key, this.user}) : super(key: key);
+
   @override
   _HomepageState createState() => _HomepageState();
 }
@@ -20,12 +22,25 @@ class _HomepageState extends State<Homepage> {
   int selectedTab = 0;
   List<String> tabs = ['Posts', 'Mine'];
 
+  void getSpecificPosts() {
+    selectedTab == 0
+        ? context.read<PostsCubit>().switchToAllPosts()
+        : context.read<PostsCubit>().switchToLocalPosts();
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<PostsCubit>().retrieveAllPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20.0),
+          padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 0),
           child: Column(
             children: [
               _header(),
@@ -76,13 +91,27 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 2,
               ),
-              Text(
-                'Beginner',
-                style: TextStyle(
-                    color: AppColors.beginner,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w300),
-              )
+              BlocBuilder<BadgeCubit, BadgeState>(builder: (_, state) {
+                return Text(
+                  state is BadgeBeginner
+                      ? 'Beginner'
+                      : state is BadgeIntermediate
+                          ? 'Intermediate'
+                          : state is BadgeExpert
+                              ? 'Expert'
+                              : '',
+                  style: TextStyle(
+                      color: state is BadgeBeginner
+                          ? AppColors.beginner
+                          : state is BadgeIntermediate
+                              ? AppColors.intermediate
+                              : state is BadgeExpert
+                                  ? AppColors.professional
+                                  : Colors.transparent,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w300),
+                );
+              })
             ],
           ),
           Spacer(),
@@ -104,6 +133,7 @@ class _HomepageState extends State<Homepage> {
                 setState(() {
                   selectedTab = tabs.indexOf(e);
                 });
+                getSpecificPosts();
               },
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -136,17 +166,68 @@ class _HomepageState extends State<Homepage> {
         }).toList(),
       );
 
-  Widget _allPosts() => StaggeredGridView.countBuilder(
-        crossAxisCount: 4,
-        mainAxisSpacing: 9,
-        crossAxisSpacing: 9,
-        itemBuilder: (context, index) => PostWidget(post: samplePosts[index]),
-        staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
-        itemCount: samplePosts.length,
+  Widget _allPosts() =>
+      BlocBuilder<PostsCubit, PostsState>(builder: (_, state) {
+        return (state is PostsUnavailable && state.error != null)
+            ? _errorWidget(context, state.error)
+            : state is PostsRetrieved
+                ? StaggeredGridView.countBuilder(
+                    padding: EdgeInsets.only(bottom: 70),
+                    physics: BouncingScrollPhysics(),
+                    crossAxisCount: 4,
+                    mainAxisSpacing: 9,
+                    crossAxisSpacing: 9,
+                    itemBuilder: (context, index) =>
+                        PostWidget(post: state.posts[index]),
+                    staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
+                    itemCount: state.posts.length,
+                  )
+                : _loader();
+      });
+
+  Widget _loader() => Center(
+        child: CircularProgressIndicator(
+          valueColor: AlwaysStoppedAnimation(AppColors.primary),
+          strokeWidth: 1,
+        ),
+      );
+
+  Widget _errorWidget(BuildContext context, String error) => Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisSize: MainAxisSize.max,
+        children: [
+          Image.asset(
+            'assets/png/error.png',
+          ),
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Text(
+              error,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: AppColors.black),
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          MButton(
+            text: 'Try again',
+            image: 'assets/png/refresh.png',
+            onClick: () {
+              getSpecificPosts();
+            },
+            fillWidth: false,
+          )
+        ],
       );
 
   Widget _createPost() => MButton(
-      text: 'Say Something',
+      text: 'Write Something',
       image: 'assets/png/quill.png',
       onClick: () => Navigator.pushNamed(context, AppRoutes.createPost),
       fillWidth: false);

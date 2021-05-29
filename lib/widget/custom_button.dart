@@ -7,7 +7,7 @@ class MButton extends StatelessWidget {
   final Function onClick;
   final bool fillWidth;
 
-  const MButton({Key key, @required this.text, this.image, @required this.onClick, @required this.fillWidth})
+  const MButton({Key key, this.text, this.image, @required this.onClick, @required this.fillWidth})
       : super(key: key);
 
   @override
@@ -31,13 +31,14 @@ class MButton extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              text,
-              style: TextStyle(
-                  color: AppColors.white,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500),
-            ),
+            if(text!=null)
+              Text(
+                text,
+                style: TextStyle(
+                    color: AppColors.white,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500),
+              ),
             if (image != null) ...[
               SizedBox(
                 width: 6,

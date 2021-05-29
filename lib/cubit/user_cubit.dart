@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
 import 'package:Postly/model/user.dart';
@@ -16,6 +17,7 @@ class UserCubit extends Cubit<UserState> {
     emit(UserProcessing());
     try {
       var savedUser = await userRepo.checkUser();
+      savedUser=null;
       if (savedUser == null) {
         processNewUser();
       } else {
@@ -39,6 +41,8 @@ class UserCubit extends Cubit<UserState> {
       User user = User.fromMap(users[randomNumber]);
       await userRepo.saveUser(jsonEncode(users[randomNumber]));
       emit(UserActive(user));
+    } on TimeoutException catch(e){
+      emit(UserInactive(error: 'Check your Internet connection and try again'));
     }catch(e){
       emit(UserInactive(error: e.toString()));
     }

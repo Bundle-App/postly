@@ -4,19 +4,19 @@ import 'dart:convert';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class UserRepo {
+class PostRepo {
   static const String newUsersUrl =
-      'https://jsonplaceholder.typicode.com/users';
+      'https://jsonplaceholder.typicode.com/posts';
 
-  UserRepo();
+  PostRepo();
 
-  Future<dynamic> checkUser() async {
+  Future<dynamic> getSavedPosts() async {
     var localDb = await SharedPreferences.getInstance();
-    var savedUser = localDb.getString('user');
-    return savedUser;
+    List<String> savedPosts = localDb.getStringList('posts') ?? [];
+    return savedPosts;
   }
 
-  Future<List<dynamic>> getNewUsers() async {
+  Future<List<dynamic>> getOnlinePosts() async {
     try {
       var response = await get(Uri.parse(newUsersUrl)).timeout(Duration(seconds: 10));
       if (response.statusCode == 200) {
@@ -28,8 +28,9 @@ class UserRepo {
     return [];
   }
 
-  Future<void> saveUser(String userObject) async {
+  Future<void> savePosts(List<String> postObjects) async {
     var localDb = await SharedPreferences.getInstance();
-    await localDb.setString('user', userObject);
+     await localDb.setStringList('posts', postObjects);
+    await Future.delayed(Duration(milliseconds: 1500));
   }
 }
