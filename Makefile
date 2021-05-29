@@ -8,3 +8,6 @@ update_models:
 
 watch_models:
 	flutter pub run build_runner watch
+
+drive_create_post:
+	flutter drive --target=test_driver/post/create.dart;

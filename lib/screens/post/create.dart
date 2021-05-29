@@ -40,6 +40,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
             children: [
               SizedBox(height: 10),
               InputField(
+                key: ValueKey('title_field'),
                 hint: 'Enter title',
                 controller: _titleController,
                 maxLength: 50,
@@ -52,6 +53,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
               SizedBox(height: 20),
               InputField(
+                key: ValueKey('body_field'),
                 hint: 'Enter post body',
                 controller: _bodyController,
                 maxLength: 100,
@@ -65,7 +67,8 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
               ),
               SizedBox(height: 100),
               MaterialButton(
-                onPressed:_onCreate,
+                key: ValueKey('create_button'),
+                onPressed: _onCreate,
                 color: PostlyColors.bundlePurple,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(4),
@@ -119,7 +122,6 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
       );
       await postState.createPost(post);
       Navigator.pop(context, true);
-
     } catch (e) {
       _isCreating.value = false;
       ScaffoldMessenger.of(context).showSnackBar(

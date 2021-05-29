@@ -28,10 +28,10 @@ class _PostsScreenState extends State<PostsScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       final authState = context.read<AuthState>();
       final user = authState.user;
-      // if (!user.isLegend) return;
+      if (!user.isLegend) return;
 
       _onShowDialog(user.username);
-      // authState.updatePoints(clearPoints: true);
+      authState.updatePoints(clearPoints: true);
     });
   }
 

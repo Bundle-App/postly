@@ -23,7 +23,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  freezed_annotation: ^0.12.0
+  freezed_annotation:
   flutter_secure_storage: ^4.2.0
 
 
@@ -40,10 +40,14 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_driver:
+    sdk: flutter
   build_runner: ^1.10.12
-  freezed: ^0.12.2
-  json_serializable: ^3.5.1
+  freezed:
+  json_serializable:
   mockito: ^4.1.1+1
+  integration_test: ^1.0.2+3
+  test:
 
 
 # For information on the generic Dart part of this file, see the
