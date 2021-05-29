@@ -12,7 +12,7 @@ class BadgeRepo {
 
   Future<int> getPoints() async {
     var localDb = await SharedPreferences.getInstance();
-    var savedPoints =localDb.getInt('points');
+    var savedPoints =localDb.getInt('points') ?? 0;
     return savedPoints;
   }
 

@@ -16,17 +16,20 @@ class PostsCubit extends Cubit<PostsState> {
   PostsCubit(this.postRepo, this.badgeCubit) : super(PostsUnavailable());
 
   List<Post> allPosts = [];
+  List<Post> onlinePosts = [];
   List<Post> localPosts = [];
 
   void retrieveAllPosts() async {
     emit(PostsProcessing());
     try {
-      List<Map<String, dynamic>> onlinePosts =
+      List<Map<String, dynamic>> repoOnlinePosts =
           List<Map<String, dynamic>>.from(await postRepo.getOnlinePosts());
-      allPosts = onlinePosts.map((e) => Post.fromMap(e)).toList();
+      onlinePosts = repoOnlinePosts.map((e) => Post.fromMap(e)).toList();
+      onlinePosts.sort((a, b) => b.id.compareTo(a.id));
 
-      retrieveLocalPosts();
-      emit(PostsRetrieved(allPosts));
+      await retrieveLocalPosts();
+      combineAndSortPosts();
+
     } on TimeoutException catch (e) {
       emit(PostsUnavailable(
           error: 'Check your Internet connection and try again'));
@@ -35,19 +38,25 @@ class PostsCubit extends Cubit<PostsState> {
     }
   }
 
-  void retrieveLocalPosts() async {
+  Future<void> retrieveLocalPosts() async {
     emit(PostsProcessing());
     try {
       List<String> repoLocalPosts = await postRepo.getSavedPosts();
       localPosts =
           repoLocalPosts.map((e) => Post.fromMap(jsonDecode(e))).toList();
+      localPosts.sort((a, b) => b.id.compareTo(a.id));
 
-      allPosts.addAll(localPosts);
-      allPosts.sort((a, b) => b.id.compareTo(a.id));
-      emit(PostsRetrieved(allPosts));
     } catch (e) {
       emit(PostsUnavailable(error: e.toString()));
     }
+  }
+
+  void combineAndSortPosts() {
+    allPosts.clear();
+    allPosts.addAll(onlinePosts);
+    allPosts.addAll(localPosts);
+    allPosts.sort((a, b) => b.id.compareTo(a.id));
+    emit(PostsRetrieved(allPosts));
   }
 
   void switchToLocalPosts() {
@@ -68,8 +77,11 @@ class PostsCubit extends Cubit<PostsState> {
       localPosts.add(post);
       await postRepo
           .savePosts(localPosts.map((e) => jsonEncode(e.toJson())).toList());
+
       await badgeCubit.addToPoints();
-      retrieveLocalPosts();
+
+      await retrieveLocalPosts();
+      combineAndSortPosts();
     } catch (e) {
       response = e.toString();
     }

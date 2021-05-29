@@ -4,6 +4,7 @@ import 'package:Postly/model/user.dart';
 import 'package:Postly/util/constants.dart';
 import 'package:Postly/widget/custom_button.dart';
 import 'package:Postly/widget/post_widget.dart';
+import 'package:Postly/widget/postly_legend.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -33,6 +34,7 @@ class _HomepageState extends State<Homepage> {
     // TODO: implement initState
     super.initState();
     context.read<PostsCubit>().retrieveAllPosts();
+    context.read<BadgeCubit>().initBadge();
   }
 
   @override
@@ -91,13 +93,28 @@ class _HomepageState extends State<Homepage> {
               SizedBox(
                 height: 2,
               ),
-              BlocBuilder<BadgeCubit, BadgeState>(builder: (_, state) {
+              BlocConsumer<BadgeCubit, BadgeState>(listener: (_, state) {
+               if (state is BadgeProfessional && state.points>16 && state.initial ) {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Dialog(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 0,
+                      child: PostlyLegend(),
+                    ),
+                  ).then((value){
+                    context.read<BadgeCubit>().resetPoints();
+                  });
+               }
+              }, builder: (_, state) {
                 return Text(
                   state is BadgeBeginner
                       ? 'Beginner'
                       : state is BadgeIntermediate
                           ? 'Intermediate'
-                          : state is BadgeExpert
+                          : state is BadgeProfessional
                               ? 'Expert'
                               : '',
                   style: TextStyle(
@@ -105,7 +122,7 @@ class _HomepageState extends State<Homepage> {
                           ? AppColors.beginner
                           : state is BadgeIntermediate
                               ? AppColors.intermediate
-                              : state is BadgeExpert
+                              : state is BadgeProfessional
                                   ? AppColors.professional
                                   : Colors.transparent,
                       fontSize: 11,
@@ -171,17 +188,20 @@ class _HomepageState extends State<Homepage> {
         return (state is PostsUnavailable && state.error != null)
             ? _errorWidget(context, state.error)
             : state is PostsRetrieved
-                ? StaggeredGridView.countBuilder(
-                    padding: EdgeInsets.only(bottom: 70),
-                    physics: BouncingScrollPhysics(),
-                    crossAxisCount: 4,
-                    mainAxisSpacing: 9,
-                    crossAxisSpacing: 9,
-                    itemBuilder: (context, index) =>
-                        PostWidget(post: state.posts[index]),
-                    staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
-                    itemCount: state.posts.length,
-                  )
+                ? state.posts.isEmpty
+                    ?  _emptyWidget(context)
+                    : StaggeredGridView.countBuilder(
+                        padding: EdgeInsets.only(bottom: 70),
+                        physics: BouncingScrollPhysics(),
+                        crossAxisCount: 4,
+                        mainAxisSpacing: 9,
+                        crossAxisSpacing: 9,
+                        itemBuilder: (context, index) =>
+                            PostWidget(post: state.posts[index]),
+                        staggeredTileBuilder: (index) =>
+                            const StaggeredTile.fit(2),
+                        itemCount: state.posts.length,
+                      )
                 : _loader();
       });
 
@@ -192,14 +212,18 @@ class _HomepageState extends State<Homepage> {
         ),
       );
 
+  Widget _emptyWidget(context) => Center(
+        child: Image.asset(
+          'assets/png/empty.png',
+          width: MediaQuery.of(context).size.width*.6,
+        ),
+      );
+
   Widget _errorWidget(BuildContext context, String error) => Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisSize: MainAxisSize.max,
         children: [
-          Image.asset(
-            'assets/png/error.png',
-          ),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -222,7 +246,8 @@ class _HomepageState extends State<Homepage> {
               getSpecificPosts();
             },
             fillWidth: false,
-          )
+          ),
+
         ],
       );
 
