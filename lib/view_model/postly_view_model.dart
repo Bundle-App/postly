@@ -7,7 +7,7 @@ import 'package:Postly/data/repository/database/hive_repository.dart';
 import 'package:Postly/models/post.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/utils/constants.dart';
-import 'package:Postly/views/post_screen.dart';
+import 'package:Postly/widget/badge.dart';
 import 'package:Postly/widget/pop_up_dialog.dart';
 import 'package:Postly/widget/postly_flush_bar.dart';
 import 'package:flutter/cupertino.dart';
@@ -46,7 +46,7 @@ class PostlyViewModel extends ChangeNotifier {
 
   //get user
   User get user => _user;
-  //Retrived user from local db is set in provider
+  //Retrieved user from local db is set in provider
   setUser(User user) => _user = user;
   set user(User value) {
     _user = value;
@@ -61,18 +61,17 @@ class PostlyViewModel extends ChangeNotifier {
   void getUser() async {
     users = await _userServices.getUsers();
     int index = randomNum.nextInt(users.length) + 1;
-    print(users);
+    //picks random user in list
     User deviceUser = users[index];
+    //puts user in hive
     _hiveRepository.add<User>(name: kUserBox, key: kUser, item: deviceUser);
     _user = deviceUser;
-    print('deviceUser ${deviceUser.email}');
     notifyListeners();
   }
 
   //get post from network
   void getPost() async {
     posts = await _postServices.getPosts();
-    print(posts);
     notifyListeners();
   }
 
@@ -86,9 +85,9 @@ class PostlyViewModel extends ChangeNotifier {
           message: "All fields must be filled",
           title: "Error",
           backgroundColor: Colors.red);
-      // notifyListeners();
     } else {
       _isLoading = true;
+      //Time class is used to delay function and simulate loading state
       Timer(Duration(seconds: 2), () {
         User user = _hiveRepository.get<User>(name: kUserBox, key: kUser);
         _viewPoints = user.points += 2;
@@ -102,6 +101,7 @@ class PostlyViewModel extends ChangeNotifier {
     }
   }
 
+  //method is called to check points of user anytime the come unto the app
   void checkPoints(context) async {
     Navigator.pushReplacementNamed(context, '/post');
     if (_viewPoints > 16) {

@@ -9,7 +9,6 @@ class UserServices {
   Future<List<User>> getUsers() async {
     try {
       final data = await _apiClient.get("users");
-      //(data['data'] as List).map((e) => PostModel.fromJson(e)).toList()
       var users = (data as List).map((e) => User.fromJson(e)).toList();
       return users;
     } catch (e) {

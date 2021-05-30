@@ -3,6 +3,7 @@ import 'package:Postly/exception.dart';
 import 'package:http/http.dart' as http;
 import 'package:Postly/data/data_provider/api_url.dart';
 
+// uri converter is used to convert url
 uriConverter(String url) {
   print('${APIUrl.baseUrl}/$url');
   return Uri.parse(APIUrl.baseUrl + '/$url');
