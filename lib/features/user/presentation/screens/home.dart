@@ -6,10 +6,12 @@ import 'package:postly/features/user/presentation/notifiers/posts_notifier.dart'
 import 'package:postly/features/user/presentation/notifiers/posts_state.dart';
 import 'package:postly/features/user/presentation/notifiers/user_notifier.dart';
 import 'package:postly/features/user/presentation/notifiers/user_state.dart';
+
+import '../../../../core/utils/extensions.dart';
 import '../../../../service_locator.dart' as di;
 import 'create_post.dart';
 
-//create provider
+//create providers
 final userProvider = StateNotifierProvider<UserNotifier, UserState>((ref) {
   return di.sl<UserNotifier>();
 });
@@ -28,6 +30,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  UserBadge userBadge = UserBadge();
   @override
   void initState() {
     super.initState();
@@ -50,59 +53,80 @@ class _HomeState extends State<Home> {
           child: const Icon(Icons.add),
         ),
         body: SingleChildScrollView(
-          child: Column(
-            children: [
-              const Text(
-                'Postly',
-                style: TextStyle(fontSize: 24),
-              ),
-              Consumer(
-                builder: (context, watch, child) {
-                  var state = watch(userProvider);
-                  // ignore: omit_local_variable_types
-                  var points = watch(pointsNotifier);
+          child: Container(
+            margin: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                SizedBox(height: context.screenHeight(0.05)),
+                const Text(
+                  'Postly',
+                  style: TextStyle(fontSize: 24),
+                ),
+                SizedBox(height: context.screenHeight(0.05)),
+                Consumer(
+                  builder: (context, watch, child) {
+                    var state = watch(userProvider);
+                    var points = watch(pointsNotifier);
 
-                  if (state is UserLoading) {
+                    if (state is UserLoading) {
+                      return const CircularProgressIndicator();
+                    } else if (state is UserLoaded) {
+                      return Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            state.user.username,
+                            style: const TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          SizedBox(width: context.screenWidth(0.05)),
+                          Container(
+                            padding: const EdgeInsets.all(10),
+                            color: Colors.blue,
+                            child: Text(
+                              userBadge.getUserBadge(points),
+                              style: const TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    } else if (state is UserError) {
+                      return Text(state.message);
+                    }
+                    return Container();
+                  },
+                ),
+                SizedBox(height: context.screenHeight(0.05)),
+                Consumer(builder: (context, watch, child) {
+                  var state = watch(postsProvider);
+                  if (state is PostsLoading) {
                     return const CircularProgressIndicator();
-                  } else if (state is UserLoaded) {
-                    return Row(
-                      children: [
-                        Text(state.user.username),
-                        Text(UserBadge().getUserBadge(points)),
-                      ],
+                  } else if (state is PostsLoaded) {
+                    return Column(
+                      children: state.posts
+                          .map((e) => Card(
+                                  child: ListTile(
+                                title: Text(
+                                  e.title,
+                                  maxLines: 1,
+                                ),
+                                subtitle: Text(
+                                  e.body,
+                                  maxLines: 3,
+                                ),
+                              )))
+                          .toList(),
                     );
-                  } else if (state is UserError) {
+                  } else if (state is PostsError) {
                     return Text(state.message);
                   }
                   return Container();
-                },
-              ),
-              Consumer(builder: (context, watch, child) {
-                var state = watch(postsProvider);
-                if (state is PostsLoading) {
-                  return const CircularProgressIndicator();
-                } else if (state is PostsLoaded) {
-                  return Column(
-                    children: state.posts
-                        .map((e) => Card(
-                                child: ListTile(
-                              title: Text(
-                                e.title,
-                                maxLines: 1,
-                              ),
-                              subtitle: Text(
-                                e.body,
-                                maxLines: 3,
-                              ),
-                            )))
-                        .toList(),
-                  );
-                } else if (state is PostsError) {
-                  return Text(state.message);
-                }
-                return Container();
-              }),
-            ],
+                }),
+              ],
+            ),
           ),
         ),
       ),
