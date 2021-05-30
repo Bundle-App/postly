@@ -44,11 +44,35 @@ class CreatePost extends ConsumerWidget {
                   onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       context.read(pointsNotifier.notifier).increment();
-                      Navigator.pop(context);
+
+                      showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Message'),
+                              content: const Text('Post created!'),
+                              actions: <Widget>[
+                                TextButton(
+                                  onPressed: () {
+                                    var count = 0;
+                                    Navigator.popUntil(context, (route) {
+                                      return count++ == 2;
+                                    });
+                                  },
+                                  child: const Text(
+                                    'OK',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
+                                ),
+                              ],
+                            );
+                          });
                     }
                     // if (count is PostsLoaded) {
-                    //   count.posts
-                    //       .insert(1, const Posts(title: 'test', body: 'body'));
+                    //   count.posts.insert(
+                    //     1,
+                    //     const Posts(title: 'test', body: 'body'),
+                    //   );
                     // }
                   },
                   style: TextButton.styleFrom(
