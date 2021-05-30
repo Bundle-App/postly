@@ -20,9 +20,10 @@ class Postly extends StatelessWidget {
     return MaterialApp(
       title: 'Postly',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.orange,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+      debugShowCheckedModeBanner: false,
       home: const Home(),
     );
   }
