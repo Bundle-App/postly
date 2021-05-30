@@ -39,3 +39,7 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# Not related to the abpve
+pubspec.lock
+Podfile.lock

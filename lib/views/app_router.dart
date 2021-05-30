@@ -9,25 +9,15 @@ class AppRouter {
     switch (settings.name) {
       case '/':
         return MaterialPageRoute(
-          builder: (_) => SplashScreen(
-              // title: "Home Screen",
-              // color: Colors.blueAccent,
-              ),
+          builder: (_) => SplashScreen(),
         );
       case '/post':
         return MaterialPageRoute(
-          builder: (_) => PostScreen(
-              // title: "Second Screen",
-              // color: Colors.redAccent,
-              // homeScreenKey: key,
-              ),
+          builder: (_) => PostScreen(),
         );
       case '/create_post':
         return MaterialPageRoute(
-          builder: (_) => CreatePostScreen(
-              // title: "Thirst Screen",
-              // color: Colors.greenAccent,
-              ),
+          builder: (_) => CreatePostScreen(),
         );
       default:
         return null;

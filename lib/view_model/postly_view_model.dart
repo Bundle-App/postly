@@ -94,7 +94,8 @@ class PostlyViewModel extends ChangeNotifier {
         _hiveRepository.add<User>(name: kUserBox, key: kUser, item: user);
         _isLoading = false;
         _postText = "";
-        Navigator.pushNamedAndRemoveUntil(context, '/post', (route) => false);
+        Navigator.pushNamedAndRemoveUntil(
+            context, POST_SCREEN_ROUTE, (route) => false);
       });
 
       notifyListeners();
@@ -103,7 +104,7 @@ class PostlyViewModel extends ChangeNotifier {
 
   //method is called to check points of user anytime the come unto the app
   void checkPoints(context) async {
-    Navigator.pushReplacementNamed(context, '/post');
+    Navigator.pushReplacementNamed(context, POST_SCREEN_ROUTE);
     if (_viewPoints > 16) {
       await showDialog(
         context: context,

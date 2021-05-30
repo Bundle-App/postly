@@ -23,11 +23,6 @@ class _BlinkingWidgetState extends State<BlinkingWidget>
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _animationController,
-      // child: MaterialButton(
-      //   onPressed: () => null,
-      //   child: Text("Text button"),
-      //   color: Colors.green,
-      // ),
       child: widget.widget,
     );
   }

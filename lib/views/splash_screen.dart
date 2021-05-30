@@ -69,7 +69,7 @@ class _SplashScreenState extends State<SplashScreen>
       await viewModel.getUser();
       await viewModel.getPost();
 
-      Navigator.pushReplacementNamed(context, '/post');
+      Navigator.pushReplacementNamed(context, POST_SCREEN_ROUTE);
 
       // Navigator.of(context).pushNamedAndRemoveUntil(
       //     LoginScreen.routeName, (Route<dynamic> route) => false);

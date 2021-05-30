@@ -1,7 +1,9 @@
 import 'package:Postly/utils/constants.dart';
+import 'package:Postly/utils/margins.dart';
 import 'package:Postly/utils/responsiveness.dart';
 import 'package:Postly/view_model/postly_view_model.dart';
 import 'package:Postly/widget/post_text_field.dart';
+import 'package:Postly/widget/postly_button.dart';
 // import 'package:Postly/view_model/base_view_model.dart';
 // import 'package:Postly/widget/post_text_field.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +15,14 @@ class CreatePostScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final vm = Provider.of<PostlyViewModel>(context);
+    final viewModel = Provider.of<PostlyViewModel>(context);
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('Create Post'),
+        title: Text(
+          'Create Post',
+          style: kAppBarTextStyle,
+        ),
       ),
       body: SafeArea(
         child: Padding(
@@ -27,24 +32,16 @@ class CreatePostScreen extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: kSubTextColor,
-                    radius: 25,
-                    child: Icon(
-                      Icons.person,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
+                  PostlyProfilePicture(),
+                  XMargin(10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('${vm.user.username}'),
-                      SizedBox(
-                        height: 5,
+                      Text(
+                        '${viewModel.user.username}',
+                        style: kTextStyle,
                       ),
+                      YMargin(5),
                       Row(
                         children: [
                           Icon(
@@ -52,13 +49,10 @@ class CreatePostScreen extends StatelessWidget {
                             size: 15,
                             color: kSubTextColor,
                           ),
-                          SizedBox(
-                            width: 5,
-                          ),
+                          XMargin(5),
                           Text(
-                            '${vm.user.address.suite}, ${vm.user.address.street}, ${vm.user.address.city}',
-                            style:
-                                TextStyle(color: kSubTextColor, fontSize: 13),
+                            '${viewModel.user.address.suite}, ${viewModel.user.address.street}, ${viewModel.user.address.city}',
+                            style: kSubTextStyle,
                           ),
                         ],
                       ),
@@ -70,50 +64,60 @@ class CreatePostScreen extends StatelessWidget {
               PostTextField(
                 controller: titleController,
                 hintText: 'An interesting title',
-                hintStyle: TextStyle(
-                    color: kSubTextColor,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold),
+                hintStyle: kHintTextStyle.copyWith(
+                    fontWeight: FontWeight.bold, fontSize: 14),
               ),
               Divider(),
               PostTextField(
-                  controller: postController,
-                  maxLines: 5,
-                  hintText: 'Type in your post here...',
-                  hintStyle: TextStyle(
-                    color: kSubTextColor,
-                    fontSize: 13,
-                  )),
-              SizedBox(
-                height: 10,
+                controller: postController,
+                maxLines: 5,
+                hintText: 'Type in your post here...',
+                hintStyle: kHintTextStyle,
               ),
-              Container(
-                height: 45,
-                width: screenWidth(context),
-                child: ElevatedButton(
-                  onPressed: () {
-                    vm.setPost = postController.text;
-                    vm.setTitle = titleController.text;
-                    vm.createPost(context);
-                    postController.clear();
-                    titleController.clear();
-                  },
-                  style: ElevatedButton.styleFrom(
-                      primary: kPrimaryColor,
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10))),
-                  child: vm.isLoading
-                      ? Image.asset(
-                          'assets/images/loader.gif',
-                          height: 35,
-                          color: Colors.white,
-                        )
-                      : Text('Create Post'),
-                ),
+              YMargin(10),
+              PostlyButton(
+                viewModel: viewModel,
+                postController: postController,
+                titleController: titleController,
+                onPressed: () {
+                  viewModel.setPost = postController.text;
+                  viewModel.setTitle = titleController.text;
+                  viewModel.createPost(context);
+                  postController.clear();
+                  titleController.clear();
+                },
+                child: viewModel.isLoading
+                    ? Image.asset(
+                        'assets/images/loader.gif',
+                        height: 35,
+                        color: Colors.white,
+                      )
+                    : Text(
+                        'Create Post',
+                        style: kTextStyle.copyWith(fontWeight: FontWeight.bold),
+                      ),
               )
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class PostlyProfilePicture extends StatelessWidget {
+  const PostlyProfilePicture({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CircleAvatar(
+      backgroundColor: kSubTextColor,
+      radius: 25,
+      child: Icon(
+        Icons.person,
+        color: Colors.white,
       ),
     );
   }

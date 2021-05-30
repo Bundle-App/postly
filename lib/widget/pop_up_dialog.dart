@@ -1,5 +1,8 @@
 import 'package:Postly/animation/blinking_widget.dart';
+import 'package:Postly/utils/constants.dart';
 import 'package:Postly/utils/responsiveness.dart';
+import 'package:Postly/widget/postly_button.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui' as ui;
 
@@ -14,7 +17,7 @@ class PopupDialog extends StatelessWidget {
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15.0)), //this right here
         child: Container(
-          height: 100,
+          height: 350,
           width: 50,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
@@ -23,19 +26,26 @@ class PopupDialog extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(20.0),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text('You are a postly legend'),
-                      BlinkingWidget(
-                          Image.asset('assets/images/legend.png', scale: 4)),
-                    ],
-                  ),
+                Text(
+                  'You are a Postly\nLegend!',
+                  textAlign: TextAlign.center,
+                  style: kTextStyle.copyWith(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: kPrimaryColor),
                 ),
+                BlinkingWidget(
+                  Image.asset('assets/images/legend.png'),
+                ),
+                PostlyButton(
+                  onPressed: () => Navigator.pop(context),
+                  child: Text(
+                    'Dismiss',
+                    style: kTextStyle.copyWith(fontWeight: FontWeight.bold),
+                  ),
+                )
               ],
             ),
           ),
