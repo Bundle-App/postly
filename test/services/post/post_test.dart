@@ -8,22 +8,27 @@ import 'package:Postly/models/http/response.dart';
 import 'package:Postly/models/post/post.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/services/auth/auth.dart';
+import 'package:Postly/services/http/http.dart';
 import 'package:Postly/services/post/post.dart';
+import 'package:Postly/services/storage/post_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:http/http.dart' as http;
 import '../../commons/json_loader.dart';
-import '../../commons/mocks.dart';
+import 'post_test.mocks.dart';
 
+@GenerateMocks([PostStorageService])
+@GenerateMocks([HttpService])
 void main() {
   late PostService postService;
-  late MockPostStorage storage;
+  late MockPostStorageService storage;
   late MockHttpService httpService;
 
   setUp(() {
-    storage = MockPostStorage();
+    storage = MockPostStorageService();
     httpService = MockHttpService();
 
     postService = PostServiceImpl(storage, httpService);
@@ -115,6 +120,8 @@ void main() {
   final posts = [post];
   group('createPost', () {
     test('verify call', () async {
+      when(storage.storeCreatedPost(post))
+          .thenAnswer((realInvocation) => Future.value());
       await postService.createPost(post);
       verify(storage.storeCreatedPost(post));
       verifyNoMoreInteractions(storage);

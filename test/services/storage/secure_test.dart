@@ -7,21 +7,21 @@ import 'package:Postly/models/http/request.dart';
 import 'package:Postly/models/http/response.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/services/storage/simple.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'secure_test.mocks.dart';
 
-import 'package:http/http.dart' as http;
-import '../../commons/json_loader.dart';
-import '../../commons/mocks.dart';
-
+@GenerateMocks([FlutterSecureStorage])
 void main() {
   late SecureStorageService storageService;
-  late MockFlutterSecureEngine storageEngine;
+  late MockFlutterSecureStorage storageEngine;
   final _key = 'key';
   final _value = 'value';
 
   setUp(() {
-    storageEngine = MockFlutterSecureEngine();
+    storageEngine = MockFlutterSecureStorage();
     storageService = SecureStorageService(storageEngine);
   });
 

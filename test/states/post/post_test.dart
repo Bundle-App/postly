@@ -3,14 +3,18 @@ import 'package:Postly/models/http/response.dart';
 import 'package:Postly/models/post/combined.dart';
 import 'package:Postly/models/post/post.dart';
 import 'package:Postly/models/user/user.dart';
+import 'package:Postly/services/post/post.dart';
 import 'package:Postly/states/auth/auth.dart';
 import 'package:Postly/states/post/post.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:mockito/mockito.dart';
 
-import '../../commons/mocks.dart';
+import 'package:mockito/annotations.dart';
+import 'post_test.mocks.dart';
 
+@GenerateMocks([PostService])
+@GenerateMocks([AuthState])
 void main() {
   late PostState postState;
   late MockPostService postService;

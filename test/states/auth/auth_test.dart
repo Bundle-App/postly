@@ -1,12 +1,14 @@
 import 'package:Postly/exceptions/exception.dart';
 import 'package:Postly/models/http/response.dart';
 import 'package:Postly/models/user/user.dart';
+import 'package:Postly/services/auth/auth.dart';
 import 'package:Postly/states/auth/auth.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'auth_test.mocks.dart';
 
-import '../../commons/mocks.dart';
-
+@GenerateMocks([AuthService])
 void main() {
   late AuthState authState;
   late MockAuthService authService;

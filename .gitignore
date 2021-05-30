@@ -43,3 +43,4 @@ app.*.map.json
 # Freezed related
 *.freezed.dart
 *.g.dart
+*.mocks.dart
