@@ -29,4 +29,5 @@ jobs:
       - name: Select coverage using Very Good Coverage
         uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
         with:
+          min_coverage: 40
           path: "./coverage/lcov.info"

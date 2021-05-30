@@ -5,7 +5,7 @@ Postly a social app that lets you share your thoughts and get comments from the 
 ## Run Instructions
 After pulling source code, get dependencies using the `flutter pub get` command  
 
-Run the following command to initiate code generator.
+Run the following command to initiate code generation.
 
 -  If `make` is installed, `make update_models`
 - Otherwise, `flutter pub pub run build_runner build --delete-conflicting-outputs`
