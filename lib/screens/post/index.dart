@@ -18,16 +18,16 @@ class PostsScreen extends StatefulWidget {
 }
 
 class _PostsScreenState extends State<PostsScreen> {
-  Future<CombinedPosts> _postsFuture;
+  late Future<CombinedPosts> _postsFuture;
 
   @override
   void initState() {
     super.initState();
     _assignPostsFuture();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) async {
       final authState = context.read<AuthState>();
-      final user = authState.user;
+      final user = authState.user!;
       if (!user.isLegend) return;
 
       await _onShowDialog(user.username);
@@ -89,13 +89,13 @@ class _PostsScreenState extends State<PostsScreen> {
             }
 
             final data = snapshot.data;
-            final createdByMe = data.createdByMe;
-            final fetchedRemotely = data.fetchedRemotely;
+            final createdByMe = data?.createdByMe ?? [];
+            final fetchedRemotely = data?.fetchedRemotely ?? [];
 
             final hasCreatedByMe =
                 createdByMe != null && createdByMe.isNotEmpty;
 
-            final user = context.select((AuthState state) => state.user);
+            final user = context.select((AuthState state) => state.user)!;
 
             return RefreshIndicator(
               color: PostlyColors.bundlePurple,
@@ -199,7 +199,10 @@ class _PostsScreenState extends State<PostsScreen> {
       context,
       CreatePostScreen.route,
     );
-    if (postCreated == null || !postCreated) return;
+
+    if (postCreated == null) return;
+
+    if (postCreated == false) return;
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
@@ -212,7 +215,7 @@ class _PostsScreenState extends State<PostsScreen> {
     });
   }
 
-  Future<void> _onShowDialog(String username) async{
+  Future<void> _onShowDialog(String username) async {
     await showDialog(
       context: context,
       builder: (context) {

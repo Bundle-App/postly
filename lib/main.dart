@@ -28,16 +28,16 @@ class MyApp extends StatefulWidget {
   final Database database;
 
   const MyApp({
-    Key key,
-    @required this.database,
+    Key? key,
+    required this.database,
   }) : super(key: key);
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  AuthService authService;
-  PostService postService;
+  late AuthService authService;
+  late PostService postService;
 
   @override
   void initState() {

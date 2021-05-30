@@ -1,18 +1,25 @@
 import 'package:meta/meta.dart';
 
 abstract class ApiResponse<T> {
-  final String message;
-  final T extraData;
+  final String? message;
+  final T? extraData;
 
-  ApiResponse(this.message, {this.extraData});
+  ApiResponse({
+    this.message,
+    this.extraData,
+  });
+
   bool get isSuccessful => this is SuccessResponse;
 }
 
 class SuccessResponse<T> extends ApiResponse<T> {
   SuccessResponse({
-    String message = '',
-    T extraData,
-  }) : super(message, extraData: extraData);
+    String? message,
+    required T extraData,
+  }) : super(
+          message: message,
+          extraData: extraData,
+        );
 }
 
 class FailureResponse<T> extends ApiResponse<T> {
@@ -23,7 +30,7 @@ class FailureResponse<T> extends ApiResponse<T> {
 
     if (responseMap.containsKey('message')) return responseMap['message'];
 
-    return null;
+    return 'An error occurred';
   }
 
   factory FailureResponse.errorFromResponse(dynamic responseData) {
@@ -33,8 +40,8 @@ class FailureResponse<T> extends ApiResponse<T> {
   }
 
   FailureResponse({
-    @required String message,
-  }) : super(message);
+    required String message,
+  }) : super(message: message);
 
   @override
   String toString() {

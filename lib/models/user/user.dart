@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -12,8 +10,8 @@ abstract class User with _$User {
 
   @JsonSerializable(explicitToJson: true)
   const factory User({
-    @JsonKey(name: 'id') int id,
-    @JsonKey(name: 'username', defaultValue: '') String username,
+    @JsonKey(name: 'id', defaultValue: -1) required int id,
+    @JsonKey(name: 'username', defaultValue: '') required String username,
     @Default(0) int points,
   }) = _User;
 

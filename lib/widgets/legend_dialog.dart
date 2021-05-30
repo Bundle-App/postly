@@ -4,8 +4,8 @@ class LegendDialog extends StatelessWidget {
   final String username;
 
   const LegendDialog({
-    Key key,
-    @required this.username,
+    Key? key,
+    required this.username,
   }) : super(key: key);
 
   @override

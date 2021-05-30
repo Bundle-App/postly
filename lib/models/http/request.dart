@@ -4,8 +4,8 @@ import 'package:meta/meta.dart';
 
 abstract class HttpRequest {
   final String path;
-  final String overrideUrl;
-  final Map<String, dynamic> headers;
+  final String? overrideUrl;
+  final Map<String, String>? headers;
 
   HttpRequest(this.path, this.headers, this.overrideUrl);
 
@@ -17,13 +17,13 @@ abstract class HttpRequest {
 }
 
 class JsonRequest extends HttpRequest {
-  final Map<String, dynamic> payload;
+  final Map<String, String> payload;
 
   JsonRequest({
-    @required String path,
-    this.payload = const <String, dynamic>{},
-    Map<String, String> headers,
-    String overrideUrl,
+    required String path,
+    this.payload = const <String, String>{},
+    Map<String, String>? headers,
+    String? overrideUrl,
   }) : super(
           path,
           headers,

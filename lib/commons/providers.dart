@@ -7,15 +7,18 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> constructProviders({
-  @required AuthService authService,
-  @required PostService postService,
+  required AuthService authService,
+  required PostService postService,
 }) {
   return <SingleChildWidget>[
     ChangeNotifierProvider<AuthState>(create: (_) => AuthState(authService)),
     ChangeNotifierProxyProvider<AuthState, PostState>(
       create: (context) => PostState(postService),
-      update: (context, authState, postState) =>
-          postState..authState = authState,
+      update: (context, authState, postState) {
+        if (postState == null) return PostState(postService);
+
+        return postState..authState = authState;
+      },
     ),
   ];
 }

@@ -15,7 +15,7 @@ class PostState with ChangeNotifier {
     this.postService,
   );
 
-  AuthState authState;
+  late AuthState authState;
 
   final _log = Logger('PostState');
 
@@ -26,7 +26,10 @@ class PostState with ChangeNotifier {
   }
 
   @visibleForTesting
-  CombinedPosts posts;
+  CombinedPosts posts = CombinedPosts(
+    createdByMe: [],
+    fetchedRemotely: [],
+  );
 
   Future<CombinedPosts> getPosts({
     bool isRefresh = false,
@@ -34,7 +37,7 @@ class PostState with ChangeNotifier {
   }) async {
     final completer = Completer<CombinedPosts>();
 
-    if (posts != null && !isRefresh && !isRefreshLocal) {
+    if ((!posts.isEmpty) && !isRefresh && !isRefreshLocal) {
       completer.complete(posts);
       return completer.future;
     }
@@ -53,14 +56,14 @@ class PostState with ChangeNotifier {
 
     final fetchedRemotelyResponse = await postService.getPosts();
     if (!fetchedRemotelyResponse.isSuccessful) {
-      throw CustomException(fetchedRemotelyResponse.message);
+      throw CustomException(fetchedRemotelyResponse.message!);
     }
 
     final fetchedRemotely = fetchedRemotelyResponse.extraData;
 
     final combined = CombinedPosts(
       createdByMe: createdByMe,
-      fetchedRemotely: fetchedRemotely,
+      fetchedRemotely: fetchedRemotely!,
     );
 
     posts = combined;

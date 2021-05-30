@@ -5,8 +5,11 @@ class LoaderStack extends StatelessWidget {
   final Widget child;
   final bool showLoader;
 
-  const LoaderStack({Key key, @required this.child, @required this.showLoader})
-      : super(key: key);
+  const LoaderStack({
+    Key? key,
+    required this.child,
+    required this.showLoader,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Stack(

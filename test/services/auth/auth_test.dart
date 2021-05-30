@@ -7,28 +7,33 @@ import 'package:Postly/models/http/request.dart';
 import 'package:Postly/models/http/response.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/services/auth/auth.dart';
+import 'package:Postly/services/http/http.dart';
+import 'package:Postly/services/storage/simple.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
 import 'package:http/http.dart' as http;
 import '../../commons/json_loader.dart';
-import '../../commons/mocks.dart';
+import 'auth_test.mocks.dart';
 
+@GenerateMocks([SimpleStorageService])
+@GenerateMocks([HttpService])
 void main() {
-  AuthService authService;
-  MockSimpleStorage storage;
-  MockHttpService httpService;
+  late AuthService authService;
+  late MockSimpleStorageService storage;
+  late MockHttpService httpService;
 
   setUp(() {
-    storage = MockSimpleStorage();
+    storage = MockSimpleStorageService();
     httpService = MockHttpService();
 
     authService = AuthServiceImpl(storage, httpService);
   });
 
   group('getUser', () {
-    List<dynamic> _rawUsers;
-    List<User> _users;
+    late List<dynamic> _rawUsers;
+    late List<User> _users;
     final request = JsonRequest(
       path: 'users',
     );
@@ -112,6 +117,10 @@ void main() {
     final user = User(id: 1, username: 'test');
 
     test('verify call', () async {
+      when(storage.putString(
+              PostlyStrings.userStorageKey, jsonEncode(user.toJson())))
+          .thenAnswer((realInvocation) => Future.value(true));
+
       await authService.setLocalUser(user);
       verify(
         storage.putString(
@@ -134,7 +143,6 @@ void main() {
       verify(storage.getString(PostlyStrings.userStorageKey));
       verifyNoMoreInteractions(storage);
       expect(localUser, user);
-
     });
 
     test('returns null if non-existent', () async {

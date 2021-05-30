@@ -18,7 +18,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.12.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -42,12 +42,14 @@ dev_dependencies:
     sdk: flutter
   flutter_driver:
     sdk: flutter
-  build_runner: ^1.10.12
+  build_runner: ^2.0.4
   freezed:
   json_serializable:
-  mockito: ^4.1.1+1
+  mockito: ^5.0.9
   integration_test: ^1.0.2+3
   test:
+
+
 
 
 # For information on the generic Dart part of this file, see the

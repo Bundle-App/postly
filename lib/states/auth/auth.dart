@@ -1,4 +1,5 @@
 import 'package:Postly/exceptions/exception.dart';
+import 'package:Postly/models/http/response.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/services/auth/auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,10 +14,10 @@ class AuthState with ChangeNotifier {
 
   final _log = Logger('AuthState');
 
-  User _user;
-  User get user => _user;
+  User? _user;
+  User? get user => _user;
 
-  set user(User user) {
+  set user(User? user) {
     _user = user;
     notifyListeners();
   }
@@ -30,15 +31,17 @@ class AuthState with ChangeNotifier {
 
     final response = await authService.getUser();
     if (!response.isSuccessful) {
-      throw CustomException(response.message);
+      throw CustomException(response.message!);
     }
 
     this.user = response.extraData;
-    authService.setLocalUser(this.user);
+    authService.setLocalUser(this.user!);
   }
 
   Future<void> updatePoints({bool clearPoints = false}) async {
     final currentUser = this.user;
+    if (currentUser == null) return;
+
     final currentPoints = currentUser.points;
 
     final updatedUser = currentUser.copyWith(

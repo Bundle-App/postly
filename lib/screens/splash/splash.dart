@@ -16,11 +16,11 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  Future<void> _userFuture;
-  bool _navigatesToNext;
+  late Future<void> _userFuture;
+  late bool _navigatesToNext;
 
-  AnimationController _controller;
-  Animation<double> _animation;
+  late AnimationController _controller;
+  late Animation<double> _animation;
 
   @override
   void initState() {
@@ -69,11 +69,11 @@ class _SplashScreenState extends State<SplashScreen>
         builder: (context, snapshot) {
           final hasError = snapshot.hasError &&
               snapshot.connectionState != ConnectionState.waiting;
-          final errorMessage = snapshot.error?.toString();
+          final errorMessage = snapshot.error?.toString() ?? '';
           final doneWithoutError =
               (snapshot.connectionState == ConnectionState.done) && !hasError;
 
-          WidgetsBinding.instance.addPostFrameCallback((_) async {
+          WidgetsBinding.instance?.addPostFrameCallback((_) async {
             if (doneWithoutError && mounted && !_navigatesToNext) {
               _navigatesToNext = true;
               await Navigator.pushReplacementNamed(

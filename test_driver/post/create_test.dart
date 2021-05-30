@@ -3,7 +3,7 @@ import 'package:test/test.dart';
 
 void main() {
   group('Create post', () {
-    FlutterDriver driver;
+    late FlutterDriver driver;
     final now = DateTime.now().millisecondsSinceEpoch;
     final postBody = 'This is my post body-ody here: $now';
 
@@ -13,9 +13,7 @@ void main() {
     });
 
     tearDownAll(() async {
-      if (driver != null) {
-        driver.close();
-      }
+      driver.close();
     });
 
     test('check Flutter driver health', () async {

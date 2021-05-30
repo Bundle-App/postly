@@ -12,9 +12,9 @@ import 'package:mockito/mockito.dart';
 import '../../commons/mocks.dart';
 
 void main() {
-  PostState postState;
-  MockPostService postService;
-  MockAuthState authState;
+  late PostState postState;
+  late MockPostService postService;
+  late MockAuthState authState;
 
   setUp(() {
     postService = MockPostService();
@@ -55,7 +55,8 @@ void main() {
             Future.value(SuccessResponse<List<Post>>(extraData: [secondPost])),
       );
 
-      expect(postState.posts, isNull);
+      expect(
+          postState.posts, predicate((e) => e is CombinedPosts && e.isEmpty));
       await postState.getPosts();
 
       final deepEq = const DeepCollectionEquality().equals;

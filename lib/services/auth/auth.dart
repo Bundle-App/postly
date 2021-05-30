@@ -19,7 +19,7 @@ abstract class AuthService {
   Future<void> setLocalUser(User user);
 
   //get user from local storage
-  Future<User> getLocalUser();
+  Future<User?> getLocalUser();
 }
 
 class AuthServiceImpl implements AuthService {
@@ -69,7 +69,7 @@ class AuthServiceImpl implements AuthService {
   }
 
   @override
-  Future<User> getLocalUser() async {
+  Future<User?> getLocalUser() async {
     final userString = await storage.getString(PostlyStrings.userStorageKey);
     if (userString == null) return null;
 

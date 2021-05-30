@@ -6,17 +6,17 @@ class InputField extends StatelessWidget {
   final TextEditingController controller;
   final int maxLength;
   final String hint;
-  final String Function(String) validator;
+  final String? Function(String?) validator;
   final int maxLines;
   final TextInputAction inputAction;
 
   const InputField({
-    Key key,
-    @required this.controller,
-    @required this.maxLength,
-    @required this.hint,
-    @required this.validator,
-    @required this.inputAction,
+    Key? key,
+    required this.controller,
+    required this.maxLength,
+    required this.hint,
+    required this.validator,
+    required this.inputAction,
     this.maxLines = 1,
   }) : super(key: key);
 

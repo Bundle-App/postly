@@ -6,7 +6,11 @@ class CombinedPosts {
   final List<Post> fetchedRemotely;
 
   CombinedPosts({
-    @required this.createdByMe,
-    @required this.fetchedRemotely,
+    required this.createdByMe,
+    required this.fetchedRemotely,
   });
+
+  bool get isEmpty {
+    return createdByMe.isEmpty && fetchedRemotely.isEmpty;
+  }
 }

@@ -18,9 +18,9 @@ import '../../commons/json_loader.dart';
 import '../../commons/mocks.dart';
 
 void main() {
-  PostService postService;
-  MockPostStorage storage;
-  MockHttpService httpService;
+  late PostService postService;
+  late MockPostStorage storage;
+  late MockHttpService httpService;
 
   setUp(() {
     storage = MockPostStorage();
@@ -30,8 +30,8 @@ void main() {
   });
 
   group('getUser', () {
-    List<dynamic> _rawPosts;
-    List<Post> _posts;
+    late List<dynamic> _rawPosts;
+    late List<Post> _posts;
     final request = JsonRequest(
       path: 'posts',
     );

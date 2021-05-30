@@ -5,9 +5,9 @@ class FutureErrorDisplay extends StatelessWidget {
   final Function() onRetry;
 
   const FutureErrorDisplay({
-    Key key,
-    @required this.message,
-    @required this.onRetry,
+    Key? key,
+    required this.message,
+    required this.onRetry,
   }) : super(key: key);
   
   @override

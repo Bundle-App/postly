@@ -15,10 +15,10 @@ class CreatePostScreen extends StatefulWidget {
 
 class _CreatePostScreenState extends State<CreatePostScreen> {
   final _formKey = GlobalKey<FormState>();
-  TextEditingController _titleController;
-  TextEditingController _bodyController;
+  late TextEditingController _titleController;
+  late TextEditingController _bodyController;
 
-  ValueNotifier<bool> _isCreating;
+  late ValueNotifier<bool> _isCreating;
 
   @override
   void initState() {
@@ -45,7 +45,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 controller: _titleController,
                 maxLength: 50,
                 validator: (title) {
-                  if (title.isEmpty) return 'Title cannot be left empty';
+                  if (title?.isEmpty ?? true) {
+                    return 'Title cannot be left empty';
+                  }
 
                   return null;
                 },
@@ -59,7 +61,9 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
                 maxLength: 100,
                 maxLines: 10,
                 validator: (title) {
-                  if (title.isEmpty) return 'Post body cannot be left empty';
+                  if (title?.isEmpty ?? true) {
+                    return 'Post body cannot be left empty';
+                  }
 
                   return null;
                 },
@@ -109,7 +113,7 @@ class _CreatePostScreenState extends State<CreatePostScreen> {
   }
 
   void _onCreate() async {
-    if (!_formKey.currentState.validate()) return;
+    if (!(_formKey.currentState?.validate() ?? false)) return;
 
     try {
       _isCreating.value = true;
