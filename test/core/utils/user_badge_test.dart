@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:postly/core/utils/user_badge.dart';
 
@@ -10,10 +9,7 @@ void main() {
       var result = userBadge.getUserBadge(0);
       expect(
         result,
-        Badge(
-          name: 'Beginner',
-          color: Colors.orangeAccent,
-        ),
+        beginnerBadge,
       );
     });
 
@@ -21,10 +17,7 @@ void main() {
       var result = userBadge.getUserBadge(6);
       expect(
         result,
-        Badge(
-          name: 'Intermediate',
-          color: Colors.blue,
-        ),
+        intermediateBadge,
       );
     });
 
@@ -32,10 +25,7 @@ void main() {
       var result = userBadge.getUserBadge(10);
       expect(
         result,
-        Badge(
-          name: 'Professional',
-          color: Colors.green,
-        ),
+        professionalBadge,
       );
     });
 
@@ -43,10 +33,7 @@ void main() {
       var result = userBadge.getUserBadge(16);
       expect(
         result,
-        Badge(
-          name: 'Professional',
-          color: Colors.green,
-        ),
+        professionalBadge,
       );
     });
 
@@ -54,10 +41,7 @@ void main() {
       var result = userBadge.getUserBadge(18);
       expect(
         result,
-        Badge(
-          name: 'Legend',
-          color: Colors.purple,
-        ),
+        legendBadge,
       );
     });
   });
