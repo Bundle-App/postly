@@ -1,0 +1,32 @@
+name: tests
+
+#run on every push to branch Ayodeji
+on:
+  push:
+    branches: Ayodeji
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+
+      - name: Install and set Flutter version
+        uses: subosito/flutter-action@v1.4.0
+        with:
+          flutter-version: '2.2.0' #this is the flutter env on which the project was developed
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run codegen
+        run: flutter pub pub run build_runner build --delete-conflicting-outputs
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Select coverage using Very Good Coverage
+        uses: VeryGoodOpenSource/very_good_coverage@v1.1.1
+        with:
+          path: "./coverage/lcov.info"

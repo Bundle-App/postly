@@ -25,12 +25,12 @@ class _PostsScreenState extends State<PostsScreen> {
     super.initState();
     _assignPostsFuture();
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async{
       final authState = context.read<AuthState>();
       final user = authState.user;
       if (!user.isLegend) return;
 
-      _onShowDialog(user.username);
+      await _onShowDialog(user.username);
       authState.updatePoints(clearPoints: true);
     });
   }
@@ -212,8 +212,8 @@ class _PostsScreenState extends State<PostsScreen> {
     });
   }
 
-  void _onShowDialog(String username) {
-    showDialog(
+  Future<void> _onShowDialog(String username) async{
+    await showDialog(
       context: context,
       builder: (context) {
         return Dialog(
