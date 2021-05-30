@@ -10,17 +10,20 @@ class BadgeCubit extends Cubit<BadgeState> {
   BadgeCubit(this.badgeRepo) : super(BadgeInitial());
   int points = 0;
 
-  void initBadge() async {
+  /// retrieves points and sets corresponding badge on launch
+  Future<void> initBadge() async {
     points = await badgeRepo.getPoints();
     setBadge(initial: true);
   }
 
-  Future<void> addToPoints() async {
-    points += 2;
+  /// increments points by 2 and sets badge when post is made
+  Future<void> addToPoints(int point) async {
+    points += point;
     await badgeRepo.savePoints(points);
     setBadge();
   }
 
+  /// resets points to zero when user is legend
   Future<void> resetPoints() async {
     points = 0;
     await badgeRepo.savePoints(points);

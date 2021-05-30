@@ -45,6 +45,7 @@ class _CreatePostState extends State<CreatePost> {
               padding: const EdgeInsets.all(20.0),
               child: Column(
                 children: [
+                  //header
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -65,9 +66,12 @@ class _CreatePostState extends State<CreatePost> {
                       )
                     ],
                   ),
+
                   SizedBox(
                     height: 40,
                   ),
+
+                  //textfields
                   Expanded(
                     child: SingleChildScrollView(
                       physics: BouncingScrollPhysics(),
@@ -92,12 +96,17 @@ class _CreatePostState extends State<CreatePost> {
                       ),
                     ),
                   ),
+
+                  //save post butoon
                   _savePost()
+
                 ],
               ),
             ),
           ),
         ),
+
+        //loader
         if (loading)
           Positioned(top: 0, right: 0, left: 0, bottom: 0, child: _loader())
       ],
@@ -109,7 +118,7 @@ class _CreatePostState extends State<CreatePost> {
         child: Center(
           child: CircularProgressIndicator(
             valueColor: AlwaysStoppedAnimation(AppColors.primary),
-            strokeWidth: 1,
+            strokeWidth: 1.5,
           ),
         ),
       );

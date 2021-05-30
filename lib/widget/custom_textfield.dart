@@ -9,7 +9,7 @@ class MTextField extends StatelessWidget {
   final int maxLines;
 
   const MTextField(
-      {Key key, this.label, this.controller, this.minLines, this.maxLines})
+      {Key key, @required this.label, @required this.controller, @required this.minLines, @required this.maxLines})
       : super(key: key);
 
   @override

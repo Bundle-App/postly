@@ -21,6 +21,7 @@ class PostWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
           Text(
             post.title.toInitialCaps(),
             style: TextStyle(
@@ -28,9 +29,11 @@ class PostWidget extends StatelessWidget {
                 fontSize: 16,
                 fontWeight: FontWeight.w600),
           ),
+
           SizedBox(
             height: 6,
           ),
+
           Text(
             post.body,
             style: TextStyle(
@@ -38,9 +41,11 @@ class PostWidget extends StatelessWidget {
                 fontSize: 13,
                 fontWeight: FontWeight.w400),
           ),
+
           SizedBox(
             height: 6,
           ),
+
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
@@ -51,6 +56,7 @@ class PostWidget extends StatelessWidget {
                   fontWeight: FontWeight.w300),
             ),
           )
+
         ],
       ),
     );

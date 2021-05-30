@@ -1,4 +1,6 @@
-class Post {
+import 'package:equatable/equatable.dart';
+
+class Post extends Equatable{
   int id;
   String title;
   String body;
@@ -16,5 +18,9 @@ class Post {
         'title': this.title,
         'body': this.body,
       };
+
+  @override
+  // TODO: implement props
+  List<Object> get props => [id,title,body];
 }
 

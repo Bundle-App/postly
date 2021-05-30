@@ -29,6 +29,7 @@ dependencies:
   shared_preferences: ^2.0.6
   http: ^0.13.3
   fluttertoast: ^8.0.7
+  bloc_test: ^8.0.0
 
 
 

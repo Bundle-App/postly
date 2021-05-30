@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:equatable/equatable.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,4 +21,5 @@ class BadgeRepo {
     var localDb = await SharedPreferences.getInstance();
      await localDb.setInt('points', points);
   }
+
 }

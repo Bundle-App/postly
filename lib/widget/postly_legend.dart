@@ -12,11 +12,11 @@ class PostlyLegend extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
+
           Align(
             alignment: Alignment.topRight,
             child:  IconButton(
                 onPressed: (){
-
                   Navigator.pop(context);
                 },
                 icon: Icon(
@@ -26,7 +26,9 @@ class PostlyLegend extends StatelessWidget {
                 ),
               )
           ),
+
           Image.asset('assets/png/celebrate.jpg',width: MediaQuery.of(context).size.width*.7,),
+
           Text(
             'You are a Postly\nLegend!',
             textAlign: TextAlign.center,
@@ -35,6 +37,7 @@ class PostlyLegend extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontSize: 22),
           ),
+
           SizedBox(height: 40,)
         ],
       ),

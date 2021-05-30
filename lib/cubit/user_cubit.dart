@@ -13,7 +13,8 @@ class UserCubit extends Cubit<UserState> {
 
   UserCubit(this.userRepo) : super(UserInactive());
 
-  void retrieveUser() async {
+  /// checks if user is saved, else fetches online
+  Future<void> retrieveUser() async {
     emit(UserProcessing());
     try {
       var savedUser = await userRepo.checkUser();
@@ -28,6 +29,7 @@ class UserCubit extends Cubit<UserState> {
     }
   }
 
+  // fetches online users, selects at random and saves user object
   void processNewUser() async{
     emit(UserProcessing());
     try{

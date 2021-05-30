@@ -18,23 +18,30 @@ class PostsCubit extends Cubit<PostsState> {
   List<Post> allPosts = [];
   List<Post> onlinePosts = [];
   List<Post> localPosts = [];
+  String onlinePostsError = '';
 
-  void retrieveAllPosts() async {
+  /// retrieve local and online posts, sorts them and emits result
+  Future<void> retrieveAllPosts() async {
+    onlinePostsError = '';
     emit(PostsProcessing());
     try {
+      //retrieve online posts
       List<Map<String, dynamic>> repoOnlinePosts =
           List<Map<String, dynamic>>.from(await postRepo.getOnlinePosts());
       onlinePosts = repoOnlinePosts.map((e) => Post.fromMap(e)).toList();
       onlinePosts.sort((a, b) => b.id.compareTo(a.id));
 
+      // retrieve local posts
       await retrieveLocalPosts();
-      combineAndSortPosts();
 
+      // adds all posts together and sorts them
+      combineAndSortPosts();
     } on TimeoutException catch (e) {
-      emit(PostsUnavailable(
-          error: 'Check your Internet connection and try again'));
+      onlinePostsError = 'Check your Internet connection and try again';
+      emit(PostsUnavailable(error: onlinePostsError));
     } catch (e) {
-      emit(PostsUnavailable(error: e.toString()));
+      onlinePostsError = e.toString();
+      emit(PostsUnavailable(error: onlinePostsError));
     }
   }
 
@@ -45,28 +52,34 @@ class PostsCubit extends Cubit<PostsState> {
       localPosts =
           repoLocalPosts.map((e) => Post.fromMap(jsonDecode(e))).toList();
       localPosts.sort((a, b) => b.id.compareTo(a.id));
-
     } catch (e) {
       emit(PostsUnavailable(error: e.toString()));
     }
   }
 
   void combineAndSortPosts() {
-    allPosts.clear();
     allPosts.addAll(onlinePosts);
     allPosts.addAll(localPosts);
     allPosts.sort((a, b) => b.id.compareTo(a.id));
     emit(PostsRetrieved(allPosts));
   }
 
-  void switchToLocalPosts() {
+  void switchToLocalPosts() async {
+    if (localPosts.isEmpty) {
+      await retrieveLocalPosts();
+    }
     emit(PostsRetrieved(localPosts));
   }
 
   void switchToAllPosts() {
+    if (onlinePostsError.isNotEmpty) {
+      emit(PostsUnavailable(error: onlinePostsError));
+      return;
+    }
     emit(PostsRetrieved(allPosts));
   }
 
+  /// save to local when post is created, adds to points and re-fetches posts
   Future<String> saveLocalPost(String title, String body) async {
     if (title.isEmpty || body.isEmpty) {
       return 'Please enter a title and body';
@@ -74,14 +87,15 @@ class PostsCubit extends Cubit<PostsState> {
     String response = '';
     try {
       Post post = Post(id: allPosts.length + 1, title: title, body: body);
-      localPosts.add(post);
+      localPosts = [post, ...localPosts];
       await postRepo
           .savePosts(localPosts.map((e) => jsonEncode(e.toJson())).toList());
 
-      await badgeCubit.addToPoints();
+      await badgeCubit.addToPoints(2);
 
-      await retrieveLocalPosts();
-      combineAndSortPosts();
+      List<Post> newAllPost = [post, ...allPosts];
+      emit(PostsRetrieved(newAllPost));
+      allPosts = newAllPost;
     } catch (e) {
       response = e.toString();
     }

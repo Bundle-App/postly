@@ -22,10 +22,11 @@ class Homepage extends StatefulWidget {
 
 class _HomepageState extends State<Homepage>
     with SingleTickerProviderStateMixin {
+
   AnimationController controller;
   Animation<Offset> firstSlideAnimation;
   Animation<Offset> secondSlideAnimation;
-  Animation<Offset> thirdSlideAnimation;
+
   int selectedTab = 0;
   List<String> tabs = ['Posts', 'Mine'];
 
@@ -33,6 +34,13 @@ class _HomepageState extends State<Homepage>
     selectedTab == 0
         ? context.read<PostsCubit>().switchToAllPosts()
         : context.read<PostsCubit>().switchToLocalPosts();
+  }
+
+  void changeTab(int tab) {
+    setState(() {
+      selectedTab = tab;
+    });
+    getSpecificPosts();
   }
 
   void setAnimation() {
@@ -68,14 +76,21 @@ class _HomepageState extends State<Homepage>
           padding: const EdgeInsets.fromLTRB(20.0, 20, 20, 0),
           child: Column(
             children: [
+              //header
               _header(),
+
               SizedBox(
                 height: 40,
               ),
+
+              //tabs
               _tabSelector(),
+
               SizedBox(
                 height: 15,
               ),
+
+              //post body
               Expanded(child: body())
             ],
           ),
@@ -170,62 +185,62 @@ class _HomepageState extends State<Homepage>
 
   Widget _tabSelector() => SlideTransition(
         position: secondSlideAnimation,
-        child: Row(
-          children: tabs.map((e) {
-            bool isSelected = tabs.indexOf(e) == selectedTab;
-            return Padding(
-              padding: const EdgeInsets.only(right: 20, left: 5),
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    selectedTab = tabs.indexOf(e);
-                  });
-                  getSpecificPosts();
-                },
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      e,
-                      style: TextStyle(
-                          color: isSelected
-                              ? AppColors.black
-                              : AppColors.grey.withOpacity(.7),
-                          fontSize: 19,
-                          fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(
-                      height: 6,
-                    ),
-                    AnimatedOpacity(
-                      opacity: isSelected ? 1 : 0,
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeInCubic,
-                      child: CircleAvatar(
-                        backgroundColor: AppColors.primary,
-                        radius: 3,
+        child: BlocBuilder<PostsCubit, PostsState>(builder: (context, state) {
+          return Row(
+            children: tabs.map((e) {
+              bool isSelected = tabs.indexOf(e) == selectedTab;
+              return Padding(
+                padding: const EdgeInsets.only(right: 20, left: 5),
+                child: GestureDetector(
+                  onTap: state is PostsProcessing
+                      ? () {}
+                      : () => changeTab(tabs.indexOf(e)),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        e,
+                        style: TextStyle(
+                            color: isSelected
+                                ? AppColors.black
+                                : AppColors.grey.withOpacity(.7),
+                            fontSize: 19,
+                            fontWeight: FontWeight.bold),
                       ),
-                    )
-                  ],
+                      SizedBox(
+                        height: 4,
+                      ),
+                      AnimatedContainer(
+                        duration: Duration(milliseconds: 300),
+                        curve: Curves.easeInCubic,
+                        height: isSelected ? 4 : 0,
+                        width: isSelected ? 15 : 0,
+                        decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(7)),
+                      )
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }).toList(),
-        ),
+              );
+            }).toList(),
+          );
+        }),
       );
 
-  Widget body() =>
-      BlocBuilder<PostsCubit, PostsState>(builder: (_, state) {
+  Widget body() => BlocBuilder<PostsCubit, PostsState>(builder: (_, state) {
         return (state is PostsUnavailable && state.error != null)
             ? _errorWidget(context, state.error)
             : state is PostsRetrieved
                 ? state.posts.isEmpty
                     ? _emptyWidget(context)
-                    : _postsWidget(context,state.posts)
+                    : _postsWidget(context, state.posts)
                 : _loader();
       });
 
-  Widget _postsWidget(context,List<Post> posts)=>TweenAnimationBuilder(
+
+  Widget _postsWidget(context, List<Post> posts) => TweenAnimationBuilder(
       tween: Tween<double>(
         begin: .2,
         end: 1,
@@ -241,10 +256,8 @@ class _HomepageState extends State<Homepage>
             crossAxisCount: 4,
             mainAxisSpacing: 9,
             crossAxisSpacing: 9,
-            itemBuilder: (context, index) =>
-                PostWidget(post: posts[index]),
-            staggeredTileBuilder: (index) =>
-            const StaggeredTile.fit(2),
+            itemBuilder: (context, index) => PostWidget(post: posts[index]),
+            staggeredTileBuilder: (index) => const StaggeredTile.fit(2),
             itemCount: posts.length,
           ),
         );
@@ -253,7 +266,7 @@ class _HomepageState extends State<Homepage>
   Widget _loader() => Center(
         child: CircularProgressIndicator(
           valueColor: AlwaysStoppedAnimation(AppColors.primary),
-          strokeWidth: 1,
+          strokeWidth: 1.5,
         ),
       );
 
@@ -296,18 +309,17 @@ class _HomepageState extends State<Homepage>
       );
 
   Widget _createPost() => TweenAnimationBuilder(
-    tween: Tween<Offset>(begin: Offset(.7,1), end: Offset(0,0)),
-    duration: Duration(milliseconds: 1000),
-    curve: Curves.decelerate,
-    builder: (context, val, child) {
-      return SlideTransition(
-        position: AlwaysStoppedAnimation(val),
-        child: MButton(
-            text: 'Write Something',
-            image: 'assets/png/quill.png',
-            onClick: () => Navigator.pushNamed(context, AppRoutes.createPost),
-            fillWidth: false),
-      );
-    }
-  );
+      tween: Tween<Offset>(begin: Offset(.7, 1), end: Offset(0, 0)),
+      duration: Duration(milliseconds: 1000),
+      curve: Curves.decelerate,
+      builder: (context, val, child) {
+        return SlideTransition(
+          position: AlwaysStoppedAnimation(val),
+          child: MButton(
+              text: 'Write Something',
+              image: 'assets/png/quill.png',
+              onClick: () => Navigator.pushNamed(context, AppRoutes.createPost),
+              fillWidth: false),
+        );
+      });
 }
