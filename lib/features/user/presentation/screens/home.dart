@@ -6,8 +6,10 @@ import 'package:postly/features/user/presentation/notifiers/posts_notifier.dart'
 import 'package:postly/features/user/presentation/notifiers/posts_state.dart';
 import 'package:postly/features/user/presentation/notifiers/user_notifier.dart';
 import 'package:postly/features/user/presentation/notifiers/user_state.dart';
+import 'package:postly/features/user/presentation/widgets/dialogs.dart';
+import 'package:postly/features/user/presentation/widgets/posts_widget.dart';
+import 'package:postly/features/user/presentation/widgets/user_widget.dart';
 
-import '../../../../core/utils/extensions.dart';
 import '../../../../service_locator.dart' as di;
 import 'create_post.dart';
 
@@ -34,8 +36,23 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
+    context.read(pointsNotifier.notifier).fetchPoints();
     context.read(userProvider.notifier).fetchUser();
     context.read(postsProvider.notifier).fetchPosts();
+
+    WidgetsBinding.instance!.addPostFrameCallback((_) {
+      var points = context.read(pointsNotifier.notifier).currentPoint();
+      if (points > 16) {
+        messageDialog(
+          context: context,
+          onPressed: () {
+            context.read(pointsNotifier.notifier).clear();
+            Navigator.pop(context);
+          },
+          content: 'You are a postly legend!',
+        );
+      }
+    });
   }
 
   @override
@@ -50,81 +67,18 @@ class _HomeState extends State<Home> {
             );
           },
           tooltip: 'Create new post',
-          child: const Icon(Icons.add),
+          child: const Icon(Icons.add, color: Colors.white),
         ),
         body: SingleChildScrollView(
           child: Container(
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             child: Column(
               children: [
-                SizedBox(height: context.screenHeight(0.05)),
-                const Text(
-                  'Postly',
-                  style: TextStyle(fontSize: 24),
-                ),
-                SizedBox(height: context.screenHeight(0.05)),
-                Consumer(
-                  builder: (context, watch, child) {
-                    var state = watch(userProvider);
-                    var points = watch(pointsNotifier);
+                ///shows current username and user's badge
+                UserWidget(userBadge: userBadge),
 
-                    if (state is UserLoading) {
-                      return const CircularProgressIndicator();
-                    } else if (state is UserLoaded) {
-                      return Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            state.user.username,
-                            style: const TextStyle(
-                              fontSize: 20,
-                            ),
-                          ),
-                          SizedBox(width: context.screenWidth(0.05)),
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            color: Colors.blue,
-                            child: Text(
-                              userBadge.getUserBadge(points),
-                              style: const TextStyle(
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    } else if (state is UserError) {
-                      return Text(state.message);
-                    }
-                    return Container();
-                  },
-                ),
-                SizedBox(height: context.screenHeight(0.05)),
-                Consumer(builder: (context, watch, child) {
-                  var state = watch(postsProvider);
-                  if (state is PostsLoading) {
-                    return const CircularProgressIndicator();
-                  } else if (state is PostsLoaded) {
-                    return Column(
-                      children: state.posts
-                          .map((e) => Card(
-                                  child: ListTile(
-                                title: Text(
-                                  e.title,
-                                  maxLines: 1,
-                                ),
-                                subtitle: Text(
-                                  e.body,
-                                  maxLines: 3,
-                                ),
-                              )))
-                          .toList(),
-                    );
-                  } else if (state is PostsError) {
-                    return Text(state.message);
-                  }
-                  return Container();
-                }),
+                ///shows posts fetched
+                const PostsWidget(),
               ],
             ),
           ),

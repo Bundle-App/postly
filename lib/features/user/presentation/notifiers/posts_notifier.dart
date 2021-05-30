@@ -5,9 +5,6 @@ import 'package:postly/features/user/domain/usecases/get_posts.dart';
 import 'package:postly/features/user/presentation/notifiers/posts_state.dart';
 import '../../../../core/usecases/usecase.dart';
 
-// class CreatePost extends StateNotifier<Posts>{
-
-// }
 class PostsNotifier extends StateNotifier<PostsState> {
   PostsNotifier(this.getAllPosts) : super(PostsInitial());
 
@@ -23,9 +20,22 @@ class PostsNotifier extends StateNotifier<PostsState> {
     );
   }
 
-  dynamic createPost(List<Posts> result) async {
-    state = PostsLoaded(result);
-    return result;
+  PostsState currentPost() {
+    return state;
+  }
+
+  void updatePosts({
+    required List<Posts> post,
+    required int id,
+    required String title,
+    required String body,
+  }) {
+    state = PostsLoaded(
+      [
+        Posts(id: id, title: title, body: body),
+        ...post,
+      ],
+    );
   }
 }
 

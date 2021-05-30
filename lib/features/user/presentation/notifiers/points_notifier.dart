@@ -6,6 +6,20 @@ class PointsNotifier extends StateNotifier<int> {
   PointsNotifier(this.sharedPreference) : super(0);
   final SharedPreferences sharedPreference;
 
+  int currentPoint() {
+    return state;
+  }
+
+  void fetchPoints() {
+    var points = sharedPreference.getInt(Strings.cachedPointsString);
+
+    if (points == null) {
+      state = 0;
+    } else {
+      state = points;
+    }
+  }
+
   void increment() {
     state = state + 2;
     sharedPreference.setInt(Strings.cachedPointsString, state);

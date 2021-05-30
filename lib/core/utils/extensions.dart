@@ -11,4 +11,6 @@ extension CustomContext on BuildContext {
 extension StringExtensions on String {
   /// baseurl path
   String get baseurl => 'https://jsonplaceholder.typicode.com/$this';
+  String get capitalize =>
+      isNotEmpty ? '${this[0].toUpperCase()}${substring(1)}' : '';
 }
