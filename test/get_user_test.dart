@@ -92,23 +92,21 @@ main() {
       verifyNoMoreInteractions(userService);
     });
 
-    test('Test to get a random number', () {
+    test('Test to get a random user', () {
       Random random = Random();
       int randomNum = random.nextInt(testUsers.length);
       user = testUsers[randomNum];
       expect(user, testUsers[randomNum]);
     });
 
-    test('Test to add the user with current point into local database', () {
+    test(
+        'Test to add the random user gotten with current point into local database',
+        () {
       when(hiveRepository.add<User>(key: kUser, name: kUserBox))
           .thenAnswer((_) async => user);
-      // HiveRepository hiveImpl = HiveRepository();
-      //var result = await postService.getPosts();
-      //     expect(result, testPosts);
-      //     verify(postService.getPosts());
-      //     verifyNoMoreInteractions(postService);
+
       hiveRepository.add<User>(key: kUser, name: kUserBox);
-      // expect(result, newUser);
+
       verify(hiveRepository.add<User>(key: kUser, name: kUserBox));
       verifyNoMoreInteractions(hiveRepository);
     });
