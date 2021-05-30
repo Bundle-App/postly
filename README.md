@@ -36,3 +36,27 @@ Run the app
 To run test cases
 
 `flutter test --no-sound-null-safety`
+
+## App Development info
+
+_Folder Structure_
+
+- core: contains all files that are reused throughout the app
+
+  - error: exceptions and failure classes are located here
+  - utils: general classes and constants used throughout the app are located here, such as app strings, extensions, app colors etc.
+
+- feature: each feature that are available in the app are included here, and separated as folders
+
+  - data: all calls made to the remote data/api are included here
+  - domain: represents bridge between the data layer and presentation layer, here all abstractions are made before being sent to the presentation layer
+  - presentation: includes all classes and methods that make up the screens/pages of the app.
+
+  ## Plugins
+
+| Name                                                                  | Usage                               |
+| --------------------------------------------------------------------- | ----------------------------------- |
+| [**Flutter Riverpod**](https://pub.dev/packages/flutter_riverpod)     | State Management                    |
+| [**Shared Preferences**](https://pub.dev/packages/shared_preferences) | Local cache/storage for simple data |
+| [**Get It**](https://pub.dev/packages/get_it)                         | Dependency injection                |
+| [**Dartz**](https://pub.dev/packages/dartz)                           | Functional programming in Dart      |
