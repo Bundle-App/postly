@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:postly/core/utils/field_validator.dart';
-// import 'package:postly/core/utils/strings.dart';
 import 'package:postly/core/utils/app_colors.dart';
-import 'package:postly/features/user/data/models/posts_model.dart';
 import 'package:postly/features/user/presentation/widgets/appbar.dart';
 import 'package:postly/features/user/presentation/widgets/dialogs.dart';
-import 'package:postly/features/user/domain/entities/posts.dart';
 import 'package:postly/features/user/presentation/notifiers/posts_state.dart';
 import '../../../../core/utils/extensions.dart';
 
@@ -66,7 +63,7 @@ class CreatePost extends StatelessWidget {
                                 .read(postsProvider.notifier)
                                 .currentPost();
                             if (post is PostsLoaded) {
-                              ///update post with entered value
+                              ///update post with user entered value
                               context.read(postsProvider.notifier).updatePosts(
                                     post: post.posts,
                                     id: post.posts.last.id! + 1,

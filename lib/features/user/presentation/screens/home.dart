@@ -36,10 +36,7 @@ class _HomeState extends State<Home> {
   @override
   void initState() {
     super.initState();
-    context.read(pointsNotifier.notifier).fetchPoints();
-    context.read(userProvider.notifier).fetchUser();
-    context.read(postsProvider.notifier).fetchPosts();
-
+    callProviders();
     WidgetsBinding.instance!.addPostFrameCallback((_) {
       var points = context.read(pointsNotifier.notifier).currentPoint();
       if (points > 16) {
@@ -55,6 +52,12 @@ class _HomeState extends State<Home> {
     });
   }
 
+  Future<void> callProviders() async {
+    context.read(pointsNotifier.notifier).fetchPoints();
+    context.read(userProvider.notifier).fetchUser();
+    context.read(postsProvider.notifier).fetchPosts();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -67,19 +70,23 @@ class _HomeState extends State<Home> {
             );
           },
           tooltip: 'Create new post',
-          child: const Icon(Icons.add, color: Colors.white),
+          child: const Icon(Icons.edit, color: Colors.white),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            child: Column(
-              children: [
-                ///shows current username and user's badge
-                UserWidget(userBadge: userBadge),
+        body: RefreshIndicator(
+          onRefresh: callProviders,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Container(
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+              child: Column(
+                children: [
+                  ///shows current username and user's badge
+                  UserWidget(userBadge: userBadge),
 
-                ///shows posts fetched
-                const PostsWidget(),
-              ],
+                  ///shows posts fetched
+                  const PostsWidget(),
+                ],
+              ),
             ),
           ),
         ),

@@ -6,6 +6,7 @@ Future messageDialog({
   required String content,
 }) {
   return showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -16,7 +17,7 @@ Future messageDialog({
               onPressed: onPressed,
               child: const Text(
                 'OK',
-                style: TextStyle(color: Colors.red),
+                style: TextStyle(color: Colors.red, fontSize: 18),
               ),
             ),
           ],
