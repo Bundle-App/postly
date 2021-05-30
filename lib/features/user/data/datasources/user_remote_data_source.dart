@@ -1,13 +1,14 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:http/http.dart' as http;
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/utils/extensions.dart';
 import '../models/user_model.dart';
 
+///this class makes calls directly to the api
 abstract class UserRemoteDataSource {
+  ///gets results from endpoint and returns the model
+  ///or throws server exception if error
   Future<UserModel> getRemoteUser();
 }
 
@@ -34,12 +35,5 @@ class UserRemoteDataSourceImpl implements UserRemoteDataSource {
     } else {
       throw ServerException();
     }
-  }
-}
-
-///random item from list extension
-extension RandomListItem<T> on List<T> {
-  T randomItem() {
-    return this[Random().nextInt(length)];
   }
 }

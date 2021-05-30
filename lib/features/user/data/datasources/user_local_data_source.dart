@@ -7,10 +7,14 @@ import '../../../../core/utils/strings.dart';
 import '../models/user_model.dart';
 
 abstract class UserLocalDataSource {
+  ///method to fetch user from cache,
+  ///throw exception if no cache data is present
   Future<UserModel> getCachedUser();
 
+  //method to cache the last data that was fetched
   Future<void> cacheUser(UserModel userModel);
 
+  ///method to check if user cache is available returns true or false
   bool hasCache();
 }
 
