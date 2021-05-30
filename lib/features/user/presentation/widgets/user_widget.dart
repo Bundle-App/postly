@@ -50,10 +50,10 @@ class UserWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      userBadge.getUserBadge(points),
-                      style: const TextStyle(
+                      userBadge.getUserBadge(points).name,
+                      style: TextStyle(
                         fontWeight: FontWeight.w700,
-                        color: Colors.orangeAccent,
+                        color: userBadge.getUserBadge(points).color,
                       ),
                     ),
                   ],

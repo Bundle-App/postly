@@ -66,7 +66,9 @@ class CreatePost extends StatelessWidget {
                               ///update post with user entered value
                               context.read(postsProvider.notifier).updatePosts(
                                     post: post.posts,
-                                    id: post.posts.last.id! + 1,
+
+                                    ///get last id from the list and add one
+                                    id: post.posts.last.id ?? 0 + 1,
                                     title: _title.text,
                                     body: _body.text,
                                   );

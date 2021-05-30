@@ -6,7 +6,10 @@ import 'package:postly/features/user/data/models/posts_model.dart';
 
 import '../../../../core/utils/extensions.dart';
 
+///this class makes calls directly to the api
 abstract class PostsRemoteDataSource {
+  ///gets results from endpoint and returns the model
+  ///or throws server exception if error
   Future<List<PostsModel>> getRemotePosts();
 }
 

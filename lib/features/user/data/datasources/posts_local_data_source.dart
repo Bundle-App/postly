@@ -10,7 +10,7 @@ abstract class PostsLocalDataSource {
   ///fetch the last posts, throw exception if no cache data is present
   Future<List<PostsModel>> getCachedPosts();
 
-  //method to cache the last data that was fetched
+  ///method to cache the last data that was fetched
   Future<void> cacheLastPost(List<PostsModel> postsModel);
 }
 
