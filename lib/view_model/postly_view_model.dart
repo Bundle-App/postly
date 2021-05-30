@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:Postly/data/repository/data_repository/post_services.dart';
 import 'package:Postly/data/repository/data_repository/user_services.dart';
 import 'package:Postly/data/repository/database/hive_repository.dart';
-import 'package:Postly/models/post.dart';
+import 'package:Postly/models/posts/post.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/utils/constants.dart';
 import 'package:Postly/widget/badge.dart';
@@ -53,6 +53,12 @@ class PostlyViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  // List<Post> get viewPosts => posts;
+  setPosts(List<Post> value) {
+    posts = value;
+    notifyListeners();
+  }
+
   //Points of the user
   int get viewPoints => _viewPoints;
   setViewPoints(int points) => _viewPoints = points;
@@ -60,11 +66,12 @@ class PostlyViewModel extends ChangeNotifier {
   //This function gets user from network and picks a random user which is saved locally
   Future<List<User>> getUser() async {
     users = await _userServices.getUsers();
-    int index = randomNum.nextInt(users.length) + 1;
+    int index = randomNum.nextInt(users.length);
     //picks random user in list
     User deviceUser = users[index];
     //puts user in hive
     _hiveRepository.add<User>(name: kUserBox, key: kUser, item: deviceUser);
+
     _user = deviceUser;
     notifyListeners();
     return users;
@@ -73,6 +80,8 @@ class PostlyViewModel extends ChangeNotifier {
   //get post from network
   Future<List<Post>> getPost() async {
     posts = await _postServices.getPosts();
+    await _hiveRepository.add<List<Post>>(
+        name: kPostBox, key: kPosts, item: posts);
     notifyListeners();
     return posts;
   }
@@ -89,10 +98,12 @@ class PostlyViewModel extends ChangeNotifier {
           backgroundColor: Colors.red);
     } else {
       _isLoading = true;
+
+      var _post = Post(title: postTitle, body: postText);
       //Timer class is used to delay function and simulate loading state
       Timer(Duration(seconds: 2), () {
         User user = _hiveRepository.get<User>(name: kUserBox, key: kUser);
-        //Two points is add to user's point and then updated on the view and locally
+        posts.add(_post);
         _viewPoints = user.points += 2;
         _hiveRepository.add<User>(name: kUserBox, key: kUser, item: user);
         _isLoading = false;

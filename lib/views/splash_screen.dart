@@ -1,5 +1,6 @@
 import 'package:Postly/data/repository/database/hive_repository.dart';
 import 'package:Postly/locator.dart';
+import 'package:Postly/models/posts/post.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/utils/constants.dart';
 import 'package:Postly/view_model/postly_view_model.dart';
@@ -53,11 +54,14 @@ class _SplashScreenState extends State<SplashScreen>
   _prepareAppState() async {
     await HiveRepository.openHives([
       kUserBox,
+      kPostBox,
     ]);
     User user;
+    List<Post> posts = [];
 
     try {
-      user = _hiveRepository.get<User>(key: 'user', name: kUserBox);
+      user = _hiveRepository.get<User>(key: kUser, name: kUserBox);
+      posts = _hiveRepository.get<List<Post>>(key: kPosts, name: kPostBox);
     } catch (ex) {
       print(ex);
     }
@@ -75,6 +79,10 @@ class _SplashScreenState extends State<SplashScreen>
       await viewModel.setUser(user);
       await viewModel.setViewPoints(user.points);
       await viewModel.getPost();
+
+      // viewModel.setPosts(posts);
+      // viewModel.posts = posts;
+
       // this function checks the point of the user to decide if to show dialog or not
       viewModel.checkPoints(context);
     }

@@ -56,9 +56,3 @@ void main() async {
     });
   });
 }
-
-// void _removeRegisterionIfExist<T>() {
-//   if (locator.isRegistered<T>()) {
-//     locator.unregister<T>();
-//   }
-// }

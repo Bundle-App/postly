@@ -2,6 +2,7 @@ import 'package:Postly/locator.dart';
 import 'package:Postly/models/address/address.dart';
 import 'package:Postly/models/company/company.dart';
 import 'package:Postly/models/geo/geo.dart';
+import 'package:Postly/models/posts/post.dart';
 import 'package:Postly/models/user/user.dart';
 import 'package:Postly/utils/constants.dart';
 import 'package:Postly/view_model/postly_view_model.dart';
@@ -26,7 +27,8 @@ _openHive() async {
     ..registerAdapter(UserAdapter())
     ..registerAdapter(AddressAdapter())
     ..registerAdapter(CompanyAdapter())
-    ..registerAdapter(GeoAdapter());
+    ..registerAdapter(GeoAdapter())
+    ..registerAdapter(PostAdapter());
 }
 
 class Postly extends StatelessWidget {

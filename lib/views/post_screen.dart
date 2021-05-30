@@ -1,4 +1,4 @@
-import 'package:Postly/models/post.dart';
+import 'package:Postly/models/posts/post.dart';
 import 'package:Postly/utils/constants.dart';
 import 'package:Postly/utils/margins.dart';
 import 'package:Postly/view_model/postly_view_model.dart';
