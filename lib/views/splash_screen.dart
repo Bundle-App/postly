@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:Postly/data/repository/database/hive_repository.dart';
 import 'package:Postly/locator.dart';
 import 'package:Postly/models/user/user.dart';
@@ -51,6 +49,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   var _hiveRepository = locator<HiveRepository>();
 
+  // function checks to see if there is a user locally
   _prepareAppState() async {
     await HiveRepository.openHives([
       kUserBox,
@@ -65,22 +64,19 @@ class _SplashScreenState extends State<SplashScreen>
     var viewModel = Provider.of<PostlyViewModel>(context, listen: false);
 
     if (user == null) {
+      //if there is no user, a  network call is made to get users and a random user selected
       print('user is null');
       await viewModel.getUser();
       await viewModel.getPost();
 
       Navigator.pushReplacementNamed(context, POST_SCREEN_ROUTE);
-
-      // Navigator.of(context).pushNamedAndRemoveUntil(
-      //     LoginScreen.routeName, (Route<dynamic> route) => false);
     } else {
+      // if there is a user locally, that user is set to the user property in view model
       await viewModel.setUser(user);
       await viewModel.setViewPoints(user.points);
       await viewModel.getPost();
-      // viewModel.badge();
+      // this function checks the point of the user to decide if to show dialog or not
       viewModel.checkPoints(context);
-
-      print('useremm ${user}');
     }
   }
 

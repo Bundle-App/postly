@@ -1,6 +1,5 @@
 import 'package:Postly/animation/blinking_widget.dart';
 import 'package:Postly/utils/constants.dart';
-import 'package:Postly/utils/responsiveness.dart';
 import 'package:Postly/widget/postly_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

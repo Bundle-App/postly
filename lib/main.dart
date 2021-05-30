@@ -20,6 +20,7 @@ void main() async {
 _openHive() async {
   WidgetsFlutterBinding.ensureInitialized();
   var appDocDir = await pp.getApplicationDocumentsDirectory();
+  //Inotializing hive and registering adapter class of models saved locally
   Hive
     ..init(appDocDir.path)
     ..registerAdapter(UserAdapter())
@@ -40,13 +41,11 @@ class Postly extends StatelessWidget {
         title: 'Postly',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          // primarySwatch: Colors.indigo,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           scaffoldBackgroundColor: kBackground,
           appBarTheme: AppBarTheme(
             elevation: 0,
             color: kPrimaryColor,
-            // actionsIconTheme: IconThemeData(color: kPrimary),
           ),
           fontFamily: "Poppins-Regular",
         ),

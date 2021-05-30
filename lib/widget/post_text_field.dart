@@ -1,4 +1,3 @@
-import 'package:Postly/utils/constants.dart';
 import 'package:flutter/material.dart';
 
 class PostTextField extends StatelessWidget {
@@ -16,7 +15,6 @@ class PostTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TextStyle hintStyle = TextStyle(color: kSubTextColor, fontSize: 13);
     return TextField(
       controller: controller,
       maxLines: maxLines,

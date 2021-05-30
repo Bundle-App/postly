@@ -1,11 +1,8 @@
 import 'package:Postly/utils/constants.dart';
 import 'package:Postly/utils/margins.dart';
-import 'package:Postly/utils/responsiveness.dart';
 import 'package:Postly/view_model/postly_view_model.dart';
 import 'package:Postly/widget/post_text_field.dart';
 import 'package:Postly/widget/postly_button.dart';
-// import 'package:Postly/view_model/base_view_model.dart';
-// import 'package:Postly/widget/post_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

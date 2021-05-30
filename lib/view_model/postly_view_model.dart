@@ -46,7 +46,7 @@ class PostlyViewModel extends ChangeNotifier {
 
   //get user
   User get user => _user;
-  //Retrieved user from local db is set in provider
+  //Retrieved user from local db is set in provider view model
   setUser(User user) => _user = user;
   set user(User value) {
     _user = value;
@@ -58,7 +58,7 @@ class PostlyViewModel extends ChangeNotifier {
   setViewPoints(int points) => _viewPoints = points;
 
   //This function gets user from network and picks a random user which is saved locally
-  void getUser() async {
+  Future<List<User>> getUser() async {
     users = await _userServices.getUsers();
     int index = randomNum.nextInt(users.length) + 1;
     //picks random user in list
@@ -67,12 +67,14 @@ class PostlyViewModel extends ChangeNotifier {
     _hiveRepository.add<User>(name: kUserBox, key: kUser, item: deviceUser);
     _user = deviceUser;
     notifyListeners();
+    return users;
   }
 
   //get post from network
-  void getPost() async {
+  Future<List<Post>> getPost() async {
     posts = await _postServices.getPosts();
     notifyListeners();
+    return posts;
   }
 
   //Creates post and gives user two points
@@ -87,9 +89,10 @@ class PostlyViewModel extends ChangeNotifier {
           backgroundColor: Colors.red);
     } else {
       _isLoading = true;
-      //Time class is used to delay function and simulate loading state
+      //Timer class is used to delay function and simulate loading state
       Timer(Duration(seconds: 2), () {
         User user = _hiveRepository.get<User>(name: kUserBox, key: kUser);
+        //Two points is add to user's point and then updated on the view and locally
         _viewPoints = user.points += 2;
         _hiveRepository.add<User>(name: kUserBox, key: kUser, item: user);
         _isLoading = false;
@@ -105,6 +108,7 @@ class PostlyViewModel extends ChangeNotifier {
   //method is called to check points of user anytime the come unto the app
   void checkPoints(context) async {
     Navigator.pushReplacementNamed(context, POST_SCREEN_ROUTE);
+    //if point is greater than 16, dialog box is shown immediately user opens the app
     if (_viewPoints > 16) {
       await showDialog(
         context: context,
@@ -117,6 +121,7 @@ class PostlyViewModel extends ChangeNotifier {
     }
   }
 
+  // This method returns a widget depending on user points
   Widget badge() {
     Widget userBadge;
     if (_viewPoints < 6) {

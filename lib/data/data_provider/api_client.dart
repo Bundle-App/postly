@@ -9,6 +9,7 @@ uriConverter(String url) {
   return Uri.parse(APIUrl.baseUrl + '/$url');
 }
 
+//Client for making network calls
 class ApiClient {
   Future<dynamic> get(String url) async {
     Map<String, String> headers = APIUrl.headers;
