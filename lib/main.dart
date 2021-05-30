@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:Postly/commons/env.dart';
 import 'package:Postly/commons/providers.dart';
 import 'package:Postly/commons/routes.dart';
 import 'package:Postly/commons/strings.dart';
@@ -16,9 +17,19 @@ import 'package:provider/provider.dart';
 import 'package:sembast/sembast.dart';
 import 'package:sembast/sembast_io.dart';
 import 'package:path/path.dart' as path;
+import 'package:logging/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Logger.root.level = EnvironmentConfig.getLogLevel();
+  Logger.root.onRecord.listen((record) {
+    debugPrint(
+        '[${record.loggerName} | ${record.level.toString()}] - ${record.message}');
+    if (record.level == Level.SEVERE) {
+      //log severe errors to crash reporting tool
+    }
+  });
+
   final db = await _createSembastDB();
 
   runApp(MyApp(database: db));

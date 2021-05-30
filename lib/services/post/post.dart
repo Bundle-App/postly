@@ -53,10 +53,10 @@ class PostServiceImpl implements PostService {
 
       return result;
     } on SocketException catch (e, t) {
-      _log.severe('getPosts', e);
+      _log.info('getPosts', e);
       throw CustomException(PostlyStrings.socketExceptionMessage);
     } on FormatException catch (e, t) {
-      _log.severe('getPosts', e);
+      _log.info('getPosts', e);
       throw CustomException(PostlyStrings.unexpectedExceptionMessage);
     } catch (e, t) {
       _log.severe('getPosts', e);
