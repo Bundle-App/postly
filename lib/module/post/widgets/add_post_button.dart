@@ -76,7 +76,9 @@ class _AddPostButtonState extends State<AddPostButton>
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(100),
                   child: Container(
-                    color: AppColors.primaryColor,
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                    ),
                     height: 35,
                     width: 35,
                     child: Icon(

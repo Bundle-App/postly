@@ -1,5 +1,6 @@
 import 'package:Postly/di.dart';
 import 'package:Postly/module/post/bloc/postly_bloc.dart';
+import 'package:Postly/module/post/model/post/post.dart';
 import 'package:Postly/module/post/model/user/user.dart';
 import 'package:Postly/module/post/service/post_service.dart';
 import 'package:Postly/module/post/widgets/add_post.dart';
@@ -23,6 +24,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<Post> posts;
   @override
   void initState() {
     var points = ioc.get<User>().points;
@@ -69,13 +71,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               }
               if (state is FetchedPosts) {
+                posts = state.posts;
                 return Expanded(
                   child: PostListView(
-                    posts: state.posts,
+                    posts: posts,
                   ),
                 );
               }
-              return Container();
+              return Expanded(
+                child: PostListView(
+                  posts: posts,
+                ),
+              );
             },
           )
         ],
