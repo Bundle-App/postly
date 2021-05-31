@@ -3,6 +3,14 @@
 ![ci](https://github.com/debbsefe/postly/actions/workflows/main.yml/badge.svg) [![codecov](https://codecov.io/gh/debbsefe/postly/branch/Mamus/graph/badge.svg?token=MX81M83W53)](https://codecov.io/gh/debbsefe/postly)
 [![style: very good analysis](https://img.shields.io/badge/style-very_good_analysis-B22C89.svg)](https://pub.dev/packages/very_good_analysis)
 
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Screenshots](#screenshots)
+- [Installing](#Installing)
+- [Installing](#App-Development-Info)
+- [Plugins](#Plugins)
+
 # Introduction
 
 ## _Project Overview_
@@ -10,7 +18,17 @@
 Postly a social app that lets you share your thoughts and get
 comments from the community.
 
-## Screenshot
+# Screenshot
+
+![Beginner](https://github.com/debbsefe/postly/blob/media/beginner.jpeg?raw=true)
+
+![Create Post](https://github.com/debbsefe/postly/blob/media/create_post.jpeg?raw=true)
+
+![Post created](https://github.com/debbsefe/postly/blob/media/post_created.jpeg?raw=true)
+
+![Professional](https://github.com/debbsefe/postly/blob/media/professional.jpeg?raw=true)
+
+![Postly Legend](https://github.com/debbsefe/postly/blob/media/postly_legend.jpeg?raw=true)
 
 # Installing
 
@@ -37,7 +55,7 @@ To run test cases
 
 `flutter test --no-sound-null-safety`
 
-## App Development info
+# App-Development-Info
 
 _Folder Structure_
 
