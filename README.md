@@ -5,8 +5,8 @@
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Screenshots](#screenshots)
+- [Introduction](#Introduction)
+- [Screenshots](#Screenshot)
 - [Installing](#Installing)
 - [Installing](#App-Development-Info)
 - [Plugins](#Plugins)
